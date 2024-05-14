@@ -9,6 +9,7 @@ use Filament\Resources\Pages\ListRecords;
 class ListProvinsis extends ListRecords
 {
     protected static string $resource = ProvinsiResource::class;
+    protected ?string $heading = 'Provinsi';
 
     protected function getHeaderActions(): array
     {

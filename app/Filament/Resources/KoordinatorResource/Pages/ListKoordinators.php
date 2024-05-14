@@ -9,6 +9,7 @@ use Filament\Resources\Pages\ListRecords;
 class ListKoordinators extends ListRecords
 {
     protected static string $resource = KoordinatorResource::class;
+    protected ?string $heading = 'Koordinator';
 
     protected function getHeaderActions(): array
     {

@@ -18,6 +18,8 @@ class SaksiResource extends Resource
     protected static ?string $model = Saksi::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $slug = 'saksi';
+    protected static ?string $navigationLabel = 'Saksi';
 
     public static function form(Form $form): Form
     {

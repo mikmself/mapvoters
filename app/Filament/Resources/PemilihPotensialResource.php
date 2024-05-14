@@ -18,6 +18,9 @@ class PemilihPotensialResource extends Resource
     protected static ?string $model = PemilihPotensial::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $slug = 'pemilih-potensial';
+    protected static ?string $navigationLabel = 'Pemilih Potensial';
+    
 
     public static function form(Form $form): Form
     {

@@ -9,7 +9,7 @@ use Filament\Resources\Pages\ListRecords;
 class ListPartais extends ListRecords
 {
     protected static string $resource = PartaiResource::class;
-
+    protected ?string $heading = 'Partai';
     protected function getHeaderActions(): array
     {
         return [

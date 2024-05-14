@@ -9,6 +9,7 @@ use Filament\Resources\Pages\ListRecords;
 class ListSaksis extends ListRecords
 {
     protected static string $resource = SaksiResource::class;
+    protected ?string $heading = 'Saksi';
 
     protected function getHeaderActions(): array
     {

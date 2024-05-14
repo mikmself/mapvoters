@@ -18,6 +18,8 @@ class KecamatanResource extends Resource
     protected static ?string $model = Kecamatan::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $slug = 'kecamatan';
+    protected static ?string $navigationLabel = 'Kecamatan';
 
     public static function form(Form $form): Form
     {

@@ -9,6 +9,7 @@ use Filament\Resources\Pages\ListRecords;
 class ListPemilihPotensials extends ListRecords
 {
     protected static string $resource = PemilihPotensialResource::class;
+    protected ?string $heading = 'Pemilih Potensial';
 
     protected function getHeaderActions(): array
     {

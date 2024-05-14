@@ -9,7 +9,7 @@ use Filament\Resources\Pages\ListRecords;
 class ListKecamatans extends ListRecords
 {
     protected static string $resource = KecamatanResource::class;
-
+    protected ?string $heading = 'Kecamatan';
     protected function getHeaderActions(): array
     {
         return [
