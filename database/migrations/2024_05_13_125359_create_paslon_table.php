@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('paslon', function (Blueprint $table) {
             $table->id();
+            $table->string('foto')->nullable();
             $table->enum('type',['gubernur','bupati/walikota','dprri','dprdprov','dprdkab','dpd']);
             $table->string('nomor_urut');
             $table->string('dapil');

@@ -16,7 +16,12 @@ return new class extends Migration
             $table->string('tps');
             $table->integer('jumlah_suara')->nullable();
             $table->string('foto_kertas_suara')->nullable();
+            $table->string('provinsi_id')->index()->references('id')->on('provinsi');
+            $table->string('kabupaten_id')->index()->references('id')->on('kabupaten');
+            $table->string('kecamatan_id')->index()->references('id')->on('kecamatan');
+            $table->string('kelurahan_id')->index()->references('id')->on('kelurahan');
             $table->foreignId('user_id')->constrained('users');
+            $table->foreignId('koordinator_id')->constrained('koordinator');
             $table->timestamps();
         });
     }
