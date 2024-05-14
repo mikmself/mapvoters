@@ -17,9 +17,12 @@ class ProvinsiResource extends Resource
 {
     protected static ?string $model = Provinsi::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-globe-alt';
     protected static ?string $slug = 'provinsi';
     protected static ?string $navigationLabel = 'Provinsi';
+    protected static ?string $navigationGroup = 'Wilayah';
+    protected static ?int $navigationSort = 1;
+
 
     public static function form(Form $form): Form
     {

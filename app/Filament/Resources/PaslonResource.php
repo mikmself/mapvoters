@@ -17,9 +17,11 @@ class PaslonResource extends Resource
 {
     protected static ?string $model = Paslon::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-user-circle';
     protected static ?string $slug = 'paslon';
     protected static ?string $navigationLabel = 'Paslon';
+    protected static ?int $navigationSort = 2;
+
 
     public static function form(Form $form): Form
     {

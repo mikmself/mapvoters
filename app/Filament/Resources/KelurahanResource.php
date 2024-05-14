@@ -17,9 +17,14 @@ class KelurahanResource extends Resource
 {
     protected static ?string $model = Kelurahan::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-globe-americas';
     protected static ?string $slug = 'kelurahan';
     protected static ?string $navigationLabel = 'Kelurahan';
+    protected static ?string $navigationGroup = 'Wilayah';
+
+    protected static ?int $navigationSort = 4;
+
+
     public static function form(Form $form): Form
     {
         return $form

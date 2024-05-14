@@ -17,10 +17,12 @@ class PemilihPotensialResource extends Resource
 {
     protected static ?string $model = PemilihPotensial::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-user-group';
     protected static ?string $slug = 'pemilih-potensial';
     protected static ?string $navigationLabel = 'Pemilih Potensial';
-    
+    protected static ?int $navigationSort = 5;
+
+
 
     public static function form(Form $form): Form
     {
