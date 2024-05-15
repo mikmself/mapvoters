@@ -5,6 +5,8 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\KoordinatorResource\Pages;
 use App\Filament\Resources\KoordinatorResource\RelationManagers;
 use App\Models\Koordinator;
+use App\Models\Paslon;
+use App\Models\User;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -25,6 +27,8 @@ class KoordinatorResource extends Resource
 
     public static function form(Form $form): Form
     {
+        $userOption = User::pluck('name', 'id')->toArray();
+        $paslonOption = Paslon::pluck('nama', 'id')->toArray();
         return $form
             ->schema([
                 Forms\Components\TextInput::make('nik')
@@ -33,10 +37,12 @@ class KoordinatorResource extends Resource
                 Forms\Components\TextInput::make('foto')
                     ->maxLength(255)
                     ->default(null),
-                Forms\Components\TextInput::make('paslon_id')
+                Forms\Components\Select::make('paslon_id')
+                    ->options($paslonOption)
                     ->required()
                     ->numeric(),
-                Forms\Components\TextInput::make('user_id')
+                Forms\Components\Select::make('user_id')
+                    ->options($userOption)
                     ->required()
                     ->numeric(),
             ]);
@@ -50,10 +56,10 @@ class KoordinatorResource extends Resource
                     ->searchable(),
                 Tables\Columns\TextColumn::make('foto')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('paslon_id')
+                Tables\Columns\TextColumn::make('paslon.user.name')
                     ->numeric()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('user_id')
+                Tables\Columns\TextColumn::make('user.name')
                     ->numeric()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('created_at')

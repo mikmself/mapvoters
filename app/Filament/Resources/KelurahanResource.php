@@ -4,6 +4,7 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\KelurahanResource\Pages;
 use App\Filament\Resources\KelurahanResource\RelationManagers;
+use App\Models\Kecamatan;
 use App\Models\Kelurahan;
 use Filament\Forms;
 use Filament\Forms\Form;
@@ -27,14 +28,15 @@ class KelurahanResource extends Resource
 
     public static function form(Form $form): Form
     {
+        $kecamatanOptions = Kecamatan::pluck('nama', 'id')->toArray();
         return $form
             ->schema([
                 Forms\Components\TextInput::make('nama')
                     ->required()
                     ->maxLength(255),
-                Forms\Components\TextInput::make('kecamatan_id')
-                    ->required()
-                    ->maxLength(255),
+                Forms\Components\Select::make('kecamatan_id')
+                    ->options($kecamatanOptions)
+                    ->required(),
             ]);
     }
 
@@ -47,7 +49,7 @@ class KelurahanResource extends Resource
                     ->searchable(),
                 Tables\Columns\TextColumn::make('nama')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('kecamatan_id')
+                Tables\Columns\TextColumn::make('kecamatan.nama')
                     ->searchable(),
             ])
             ->filters([

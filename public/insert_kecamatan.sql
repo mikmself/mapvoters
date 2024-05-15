@@ -1,4 +1,4 @@
-INSERT INTO `kecamatan` VALUES
+INSERT INTO kecamatan(id,kabupaten_id,nama) VALUES
 ('110101', '1101', 'Bakongan'),
 ('110102', '1101', 'Kluet Utara'),
 ('110103', '1101', 'Kluet Selatan'),

@@ -4,7 +4,12 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\PemilihPotensialResource\Pages;
 use App\Filament\Resources\PemilihPotensialResource\RelationManagers;
+use App\Models\Kabupaten;
+use App\Models\Kecamatan;
+use App\Models\Kelurahan;
+use App\Models\Koordinator;
 use App\Models\PemilihPotensial;
+use App\Models\Provinsi;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -26,6 +31,11 @@ class PemilihPotensialResource extends Resource
 
     public static function form(Form $form): Form
     {
+        $provinsiOption = Provinsi::pluck('nama', 'id')->toArray();
+        $kabupatenOption = Kabupaten::pluck('nama', 'id')->toArray();
+        $kecamatanOption = Kecamatan::pluck('nama', 'id')->toArray();
+        $kelurahanOption = Kelurahan::pluck('nama', 'id')->toArray();
+        $koodinatorOption = Koordinator::pluck('nama', 'id')->toArray();
         return $form
             ->schema([
                 Forms\Components\TextInput::make('nama')
@@ -44,19 +54,24 @@ class PemilihPotensialResource extends Resource
                 Forms\Components\TextInput::make('tps')
                     ->required()
                     ->maxLength(255),
-                Forms\Components\TextInput::make('provinsi_id')
+                Forms\Components\Select::make('provinsi_id')
+                    ->options($provinsiOption)
                     ->required()
-                    ->maxLength(255),
-                Forms\Components\TextInput::make('kabupaten_id')
+                    ->numeric(),
+                Forms\Components\Select::make('kabupaten_id')
+                    ->options($kabupatenOption)
                     ->required()
-                    ->maxLength(255),
-                Forms\Components\TextInput::make('kecamatan_id')
+                    ->numeric(),
+                Forms\Components\Select::make('kecamatan_id')
+                    ->options($kecamatanOption)
                     ->required()
-                    ->maxLength(255),
-                Forms\Components\TextInput::make('kelurahan_id')
+                    ->numeric(),
+                Forms\Components\Select::make('kelurahan_id')
+                    ->options($kelurahanOption)
                     ->required()
-                    ->maxLength(255),
-                Forms\Components\TextInput::make('koordinator_id')
+                    ->numeric(),
+                Forms\Components\Select::make('koordinator_id')
+                    ->options($koodinatorOption)
                     ->required()
                     ->numeric(),
             ]);
@@ -76,15 +91,15 @@ class PemilihPotensialResource extends Resource
                     ->searchable(),
                 Tables\Columns\TextColumn::make('tps')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('provinsi_id')
+                Tables\Columns\TextColumn::make('provinsi.nama')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('kabupaten_id')
+                Tables\Columns\TextColumn::make('kabupaten.nama')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('kecamatan_id')
+                Tables\Columns\TextColumn::make('kecamatan.nama')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('kelurahan_id')
+                Tables\Columns\TextColumn::make('kelurahan.nama')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('koordinator_id')
+                Tables\Columns\TextColumn::make('koordinator.user.name')
                     ->numeric()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('created_at')

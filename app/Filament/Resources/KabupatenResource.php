@@ -5,6 +5,7 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\KabupatenResource\Pages;
 use App\Filament\Resources\KabupatenResource\RelationManagers;
 use App\Models\Kabupaten;
+use App\Models\Provinsi;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -27,14 +28,15 @@ class KabupatenResource extends Resource
 
     public static function form(Form $form): Form
     {
+        $provinsiOptions = Provinsi::pluck('nama', 'id')->toArray();
         return $form
             ->schema([
                 Forms\Components\TextInput::make('nama')
                     ->required()
                     ->maxLength(255),
-                Forms\Components\TextInput::make('provinsi_id')
-                    ->required()
-                    ->maxLength(255),
+                Forms\Components\Select::make('provinsi_id')
+                    ->options($provinsiOptions)
+                    ->required(),
             ]);
     }
 
@@ -47,7 +49,7 @@ class KabupatenResource extends Resource
                     ->searchable(),
                 Tables\Columns\TextColumn::make('nama')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('provinsi_id')
+                Tables\Columns\TextColumn::make('provinsi.nama')
                     ->searchable(),
             ])
             ->filters([

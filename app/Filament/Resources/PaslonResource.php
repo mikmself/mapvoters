@@ -4,7 +4,9 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\PaslonResource\Pages;
 use App\Filament\Resources\PaslonResource\RelationManagers;
+use App\Models\Partai;
 use App\Models\Paslon;
+use App\Models\User;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -25,6 +27,8 @@ class PaslonResource extends Resource
 
     public static function form(Form $form): Form
     {
+        $partaiOptions = Partai::pluck('nama', 'id')->toArray();
+        $userOptions = User::pluck('name', 'id')->toArray();
         return $form
             ->schema([
                 Forms\Components\TextInput::make('foto')
@@ -38,10 +42,12 @@ class PaslonResource extends Resource
                 Forms\Components\TextInput::make('dapil')
                     ->required()
                     ->maxLength(255),
-                Forms\Components\TextInput::make('partai_id')
-                    ->numeric()
-                    ->default(null),
-                Forms\Components\TextInput::make('user_id')
+                Forms\Components\Select::make('partai_id')
+                    ->options($partaiOptions)
+                    ->required()
+                    ->numeric(),
+                Forms\Components\Select::make('user_id')
+                    ->options($userOptions)
                     ->required()
                     ->numeric(),
             ]);
@@ -58,10 +64,10 @@ class PaslonResource extends Resource
                     ->searchable(),
                 Tables\Columns\TextColumn::make('dapil')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('partai_id')
+                Tables\Columns\TextColumn::make('partai.nama')
                     ->numeric()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('user_id')
+                Tables\Columns\TextColumn::make('user.name')
                     ->numeric()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('created_at')

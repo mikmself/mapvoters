@@ -4,7 +4,13 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\SaksiResource\Pages;
 use App\Filament\Resources\SaksiResource\RelationManagers;
+use App\Models\Kabupaten;
+use App\Models\Kecamatan;
+use App\Models\Kelurahan;
+use App\Models\Koordinator;
+use App\Models\Provinsi;
 use App\Models\Saksi;
+use App\Models\User;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -24,6 +30,12 @@ class SaksiResource extends Resource
 
     public static function form(Form $form): Form
     {
+        $provinsiOption = Provinsi::pluck('nama', 'id')->toArray();
+        $kabupatenOption = Kabupaten::pluck('nama', 'id')->toArray();
+        $kecamatanOption = Kecamatan::pluck('nama', 'id')->toArray();
+        $kelurahanOption = Kelurahan::pluck('nama', 'id')->toArray();
+        $koodinatorOption = Koordinator::pluck('nama', 'id')->toArray();
+        $userOption = User::pluck('name', 'id')->toArray();
         return $form
             ->schema([
                 Forms\Components\TextInput::make('tps')
@@ -35,22 +47,28 @@ class SaksiResource extends Resource
                 Forms\Components\TextInput::make('foto_kertas_suara')
                     ->maxLength(255)
                     ->default(null),
-                Forms\Components\TextInput::make('provinsi_id')
-                    ->required()
-                    ->maxLength(255),
-                Forms\Components\TextInput::make('kabupaten_id')
-                    ->required()
-                    ->maxLength(255),
-                Forms\Components\TextInput::make('kecamatan_id')
-                    ->required()
-                    ->maxLength(255),
-                Forms\Components\TextInput::make('kelurahan_id')
-                    ->required()
-                    ->maxLength(255),
-                Forms\Components\TextInput::make('user_id')
+                Forms\Components\Select::make('provinsi_id')
+                    ->options($provinsiOption)
                     ->required()
                     ->numeric(),
-                Forms\Components\TextInput::make('koordinator_id')
+                Forms\Components\Select::make('kabupaten_id')
+                    ->options($kabupatenOption)
+                    ->required()
+                    ->numeric(),
+                Forms\Components\Select::make('kecamatan_id')
+                    ->options($kecamatanOption)
+                    ->required()
+                    ->numeric(),
+                Forms\Components\Select::make('kelurahan_id')
+                    ->options($kelurahanOption)
+                    ->required()
+                    ->numeric(),
+                Forms\Components\Select::make('user_id')
+                    ->options($userOption)
+                    ->required()
+                    ->numeric(),
+                Forms\Components\Select::make('koordinator_id')
+                    ->options($koodinatorOption)
                     ->required()
                     ->numeric(),
             ]);
@@ -67,18 +85,18 @@ class SaksiResource extends Resource
                     ->sortable(),
                 Tables\Columns\TextColumn::make('foto_kertas_suara')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('provinsi_id')
+                Tables\Columns\TextColumn::make('provinsi.nama')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('kabupaten_id')
+                Tables\Columns\TextColumn::make('kabupaten.nama')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('kecamatan_id')
+                Tables\Columns\TextColumn::make('kecamatan.nama')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('kelurahan_id')
+                Tables\Columns\TextColumn::make('kelurahan.nama')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('user_id')
+                Tables\Columns\TextColumn::make('user.name')
                     ->numeric()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('koordinator_id')
+                Tables\Columns\TextColumn::make('koordinator.user.name')
                     ->numeric()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('created_at')
