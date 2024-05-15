@@ -10,7 +10,8 @@ class PaginationHandler extends Handlers {
     public static string | null $uri = '/';
     public static string | null $resource = KabupatenResource::class;
 
-
+    public static bool $public = true;
+    
     public function handler()
     {
         $query = static::getEloquentQuery();

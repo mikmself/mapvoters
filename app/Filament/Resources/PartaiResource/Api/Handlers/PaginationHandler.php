@@ -10,6 +10,7 @@ class PaginationHandler extends Handlers {
     public static string | null $uri = '/';
     public static string | null $resource = PartaiResource::class;
 
+    public static bool $public = true;
 
     public function handler()
     {
