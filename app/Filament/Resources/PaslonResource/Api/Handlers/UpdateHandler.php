@@ -1,6 +1,7 @@
 <?php
 namespace App\Filament\Resources\PaslonResource\Api\Handlers;
 
+use App\Models\Paslon;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -31,7 +32,7 @@ class UpdateHandler extends Handlers {
         try {
             DB::beginTransaction();
             $id = $request->route('id');
-            $model = static::getModel()::find($id);
+            $model = Paslon::find($id);
             if (!$model) {
                 $response = static::sendNotFoundResponse();
             } else {
@@ -64,8 +65,9 @@ class UpdateHandler extends Handlers {
                         'dapil' => $request->dapil ? $request->dapil : $model->dapil,
                         'partai_id' => $request->partai_id ? $request->partai_id : $model->partai_id,
                     ]);
+                    $paslon = Paslon::with('user')->find($id);
                     DB::commit();
-                    $response = static::sendSuccessResponse(["paslon" => $model, "user" => $user], "Successfully Updated Resource");
+                    $response = static::sendSuccessResponse($paslon, "Successfully Updated Resource");
                 }
             }
         } catch (\Exception $e) {
