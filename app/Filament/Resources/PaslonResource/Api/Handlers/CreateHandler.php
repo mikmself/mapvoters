@@ -1,6 +1,7 @@
 <?php
 namespace App\Filament\Resources\PaslonResource\Api\Handlers;
 
+use App\Models\Paslon;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -51,8 +52,7 @@ class CreateHandler extends Handlers {
                 'telephone' => $request->telephone,
                 'role' => 'paslon'
             ]);
-            $model = new (static::getModel());
-            $model->create([
+            $newModel = Paslon::create([
                 'foto' => $this->prosesFoto($request,'paslon'),
                 'type' => $request->type,
                 'nomor_urut' => $request->nomor_urut,
@@ -60,8 +60,9 @@ class CreateHandler extends Handlers {
                 'partai_id' => $request->partai_id,
                 'user_id' => $user->id
             ]);
+            $paslon = Paslon::where('id', $newModel->id)->with('user')->first();
             DB::commit();
-            return static::sendSuccessResponse($model, "Successfully Create Resource");
+            return static::sendSuccessResponse($paslon, "Successfully Create Resource");
         }catch (\Exception $e) {
             DB::rollBack();
             return static::sendErrorResponse($e->getMessage(), $e->getMessage(), 500);

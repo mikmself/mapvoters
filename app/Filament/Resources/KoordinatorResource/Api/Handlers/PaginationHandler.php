@@ -11,7 +11,7 @@ class PaginationHandler extends Handlers {
     public static string | null $resource = KoordinatorResource::class;
 
     public static bool $public = true;
-    
+
     public function handler()
     {
         $query = static::getEloquentQuery();
@@ -22,6 +22,7 @@ class PaginationHandler extends Handlers {
         ->allowedSorts($model::$allowedSorts ?? [])
         ->allowedFilters($model::$allowedFilters ?? [])
         ->allowedIncludes($model::$allowedIncludes ?? null)
+            ->with('user')
         ->paginate(request()->query('per_page'))
         ->appends(request()->query());
 

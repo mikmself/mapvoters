@@ -5,6 +5,7 @@ namespace App\Filament\Resources\PaslonResource\Api\Handlers;
 use App\Filament\Resources\SettingResource;
 use App\Filament\Resources\PaslonResource;
 use App\Models\User;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Rupadana\ApiService\Http\Handlers;
 use Illuminate\Http\Request;
 
@@ -15,19 +16,19 @@ class DetailHandler extends Handlers
 
     public static bool $public = true;
 
-
-
     public function handler(Request $request)
     {
         try {
             $id = $request->route('id');
-            $model = static::getModel()::find($id);
-            if (!$model) return static::sendNotFoundResponse();
-            $user = User::where('id',$model->user_id)->first();
-            return static::sendSuccessResponse(["paslon" => $model, "user" => $user], "Successfully Show Detail Resource");
-        }catch (\Exception $e) {
-            return static::sendErrorResponse($e->getMessage(), $e->getMessage(), 500);
+            $query = static::getEloquentQuery();
+            $query = $query->with('user')->where(static::getKeyName(), $id)->firstOrFail();
+            if (!$query) {
+                return static::sendNotFoundResponse();
+            }
+            $transformer = static::getApiTransformer();
+            return new $transformer($query);
+        } catch (ModelNotFoundException $exception) {
+            return static::sendNotFoundResponse();
         }
-
     }
 }

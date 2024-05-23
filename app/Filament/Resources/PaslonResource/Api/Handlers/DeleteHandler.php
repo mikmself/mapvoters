@@ -4,6 +4,7 @@ namespace App\Filament\Resources\PaslonResource\Api\Handlers;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 use Rupadana\ApiService\Http\Handlers;
 use App\Filament\Resources\PaslonResource;
 
@@ -29,6 +30,9 @@ class DeleteHandler extends Handlers {
             $model = static::getModel()::find($id);
             if (!$model) return static::sendNotFoundResponse();
             $user = User::where('id',$model->user_id)->first();
+            if ($model->foto) {
+                Storage::delete('public/' . $model->foto);
+            }
             $model->delete();
             $user->delete();
             DB::commit();
