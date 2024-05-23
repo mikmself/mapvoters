@@ -17,7 +17,7 @@ Map Voters Rest API
 Install mapvoters with composer
 
 ```bash
-  git clonehttps://github.com/mikmself/mapvoters.git
+  git clone https://github.com/mikmself/mapvoters.git
   cd mapvoters
   composer install || composer update
 ```
