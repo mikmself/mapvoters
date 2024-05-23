@@ -9,6 +9,8 @@ class UpdateHandler extends Handlers {
     public static string | null $uri = '/{id}';
     public static string | null $resource = KoordinatorResource::class;
 
+    public static bool $public = true;
+
     public static function getMethod()
     {
         return Handlers::PUT;

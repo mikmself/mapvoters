@@ -9,6 +9,8 @@ class CreateHandler extends Handlers {
     public static string | null $uri = '/';
     public static string | null $resource = KoordinatorResource::class;
 
+    public static bool $public = true;
+
     public static function getMethod()
     {
         return Handlers::POST;
@@ -21,11 +23,8 @@ class CreateHandler extends Handlers {
     public function handler(Request $request)
     {
         $model = new (static::getModel());
-
         $model->fill($request->all());
-
         $model->save();
-
         return static::sendSuccessResponse($model, "Successfully Create Resource");
     }
 }

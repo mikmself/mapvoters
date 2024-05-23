@@ -13,11 +13,13 @@ class DetailHandler extends Handlers
     public static string | null $uri = '/{id}';
     public static string | null $resource = KoordinatorResource::class;
 
+    public static bool $public = true;
+
 
     public function handler(Request $request)
     {
         $id = $request->route('id');
-        
+
         $query = static::getEloquentQuery();
 
         $query = QueryBuilder::for(
