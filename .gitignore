@@ -3,6 +3,7 @@
 /public/build
 /public/hot
 /public/paslon
+/public/koordinator
 /public/storage
 /storage/*.key
 /vendor
