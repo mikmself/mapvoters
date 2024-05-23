@@ -54,7 +54,7 @@ class CreateHandler extends Handlers {
             $newModel = Saksi::create([
                 'tps' => $request->tps,
                 'jumlah_suara' => $request->jumlah_suara,
-                'foto_kertas_suara' => $request->foto_kertas_suara != null ? $this->prosesFoto($request,'foto_kertas_suara') : null,
+                'foto_kertas_suara' => $request->foto_kertas_suara != null ? $this->prosesFoto($request,'foto_kertas_suara','foto_kertas_suara') : null,
                 'provinsi_id' => $request->provinsi_id,
                 'kabupaten_id' => $request->kabupaten_id,
                 'kecamatan_id' => $request->kecamatan_id,

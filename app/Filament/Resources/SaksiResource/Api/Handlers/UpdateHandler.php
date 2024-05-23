@@ -47,7 +47,7 @@ class UpdateHandler extends Handlers {
                         if ($model->foto_kertas_suara) {
                             Storage::delete('public/' . $model->foto_kertas_suara);
                         }
-                        $fotoPath = $this->prosesFoto($request, 'saksi');
+                        $fotoPath = $this->prosesFoto($request, 'foto_kertas_suara','foto_kertas_suara');
                     } else {
                         $fotoPath = $model->foto_kertas_suara;
                     }

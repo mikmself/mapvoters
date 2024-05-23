@@ -7,7 +7,7 @@ Route::get('/', function () {
 });
 
 //Route Tambahan
-Route::get('/pemetaan-provinsi/{idPaslon}', 'WilayahController@pemetaanProvinsi');
-Route::get('/pemetaan-kabupaten/{idPaslon}', 'WilayahController@pemetaanKabupaten');
-Route::get('/pemetaan-kecamatan/{idPaslon}', 'WilayahController@pemetaanKecamatan');
-Route::get('/pemetaan-kelurahan/{idPaslon}', 'WilayahController@pemetaanKelurahan');
+Route::get('/api/pemetaan-provinsi/{idPaslon}', [\App\Http\Controllers\WilayahController::class, 'pemetaanProvinsi']);
+Route::get('/api/pemetaan-kabupaten/{idPaslon}', [\App\Http\Controllers\WilayahController::class,'pemetaanKabupaten']);
+Route::get('/api/pemetaan-kecamatan/{idPaslon}', [\App\Http\Controllers\WilayahController::class,'pemetaanKecamatan']);
+Route::get('/api/pemetaan-kelurahan/{idPaslon}', [\App\Http\Controllers\WilayahController::class,'pemetaanKelurahan']);
