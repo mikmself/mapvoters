@@ -6,6 +6,7 @@
 /public/koordinator
 /public/foto_ktp
 /public/foto_kertas_suara
+/public/partai
 /public/storage
 /storage/*.key
 /vendor
