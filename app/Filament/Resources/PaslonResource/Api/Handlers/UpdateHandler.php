@@ -1,13 +1,20 @@
 <?php
 namespace App\Filament\Resources\PaslonResource\Api\Handlers;
 
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Storage;
 use Rupadana\ApiService\Http\Handlers;
 use App\Filament\Resources\PaslonResource;
 
 class UpdateHandler extends Handlers {
     public static string | null $uri = '/{id}';
     public static string | null $resource = PaslonResource::class;
+
+    public static bool $public = true;
 
     public static function getMethod()
     {
@@ -20,16 +27,52 @@ class UpdateHandler extends Handlers {
 
     public function handler(Request $request)
     {
-        $id = $request->route('id');
+        $response = null;
+        try {
+            DB::beginTransaction();
+            $id = $request->route('id');
+            $model = static::getModel()::find($id);
+            if (!$model) {
+                $response = static::sendNotFoundResponse();
+            } else {
+                $validator = Validator::make($request->all(), [
+                    'foto' => 'sometimes|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+                    'password' => 'sometimes',
+                ]);
+                if ($validator->fails()) {
+                    $response = static::sendErrorResponse($validator->errors(), $validator->errors(), 422);
+                } else {
+                    $user = User::find($model->user_id);
+                    if ($request->hasFile('foto')) {
+                        if ($model->foto) {
+                            Storage::delete('public/' . $model->foto);
+                        }
+                        $fotoPath = $this->prosesFoto($request, 'paslon');
+                    } else {
+                        $fotoPath = $model->foto;
+                    }
+                    $user->update([
+                        'name' => $request->name ? $request->name : $user->name,
+                        'email' => $request->email ? $request->email : $user->email,
+                        'telephone' => $request->telephone  ? $request->telephone : $user->telephone,
+                        'password' => $request->password ? Hash::make($request->password) : $user->password,
+                    ]);
+                    $model->update([
+                        'foto' => $fotoPath,
+                        'type' => $request->type ? $request->type : $model->type,
+                        'nomor_urut' => $request->nomor_urut ? $request->nomor_urut : $model->nomor_urut,
+                        'dapil' => $request->dapil ? $request->dapil : $model->dapil,
+                        'partai_id' => $request->partai_id ? $request->partai_id : $model->partai_id,
+                    ]);
+                    DB::commit();
+                    $response = static::sendSuccessResponse(["paslon" => $model, "user" => $user], "Successfully Updated Resource");
+                }
+            }
+        } catch (\Exception $e) {
+            DB::rollBack();
+            $response = static::sendErrorResponse($e->getMessage(), $e->getMessage(), 500);
+        }
 
-        $model = static::getModel()::find($id);
-
-        if (!$model) return static::sendNotFoundResponse();
-
-        $model->fill($request->all());
-
-        $model->save();
-
-        return static::sendSuccessResponse($model, "Successfully Update Resource");
+        return $response;
     }
 }
