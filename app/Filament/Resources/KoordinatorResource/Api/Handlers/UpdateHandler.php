@@ -36,6 +36,7 @@ class UpdateHandler extends Handlers {
             } else {
                 $validator = Validator::make($request->all(), [
                     'foto' => 'sometimes|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+                    'password' => 'sometimes',
                 ]);
                 if ($validator->fails()) {
                     $response = static::sendErrorResponse($validator->errors(), $validator->errors(), 422);

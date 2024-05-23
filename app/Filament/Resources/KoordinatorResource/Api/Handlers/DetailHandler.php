@@ -28,7 +28,7 @@ class DetailHandler extends Handlers
             $transformer = static::getApiTransformer();
             return new $transformer($query);
         } catch (ModelNotFoundException $exception) {
-            return static::sendNotFoundResponse();
+            return static::sendNotFoundResponse($exception->getMessage());
         }
     }
 }

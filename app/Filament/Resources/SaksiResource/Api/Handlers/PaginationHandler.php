@@ -21,6 +21,7 @@ class PaginationHandler extends Handlers {
         ->allowedFields($model::$allowedFields ?? [])
         ->allowedSorts($model::$allowedSorts ?? [])
         ->allowedFilters($model::$allowedFilters ?? [])
+            ->with('provinsi', 'kabupaten', 'kecamatan', 'kelurahan', 'user', 'koordinator')
         ->allowedIncludes($model::$allowedIncludes ?? null)
         ->paginate(request()->query('per_page'))
         ->appends(request()->query());
