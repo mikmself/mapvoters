@@ -13,7 +13,7 @@ class PaslonSeeder extends Seeder
     public function run(): void
     {
         $user = User::create([
-            'nama' => 'Subani Irga Angelina Alam Sinurat',
+            'name' => 'Subani Irga Angelina Alam Sinurat',
             'email' => 'siaas@gmail.com',
             'password' => Hash::make('password'),
             'telephone' => '081233033303',

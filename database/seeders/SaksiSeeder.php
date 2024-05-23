@@ -13,7 +13,7 @@ class SaksiSeeder extends Seeder
     public function run(): void
     {
         $user1 = User::create([
-            'nama' => 'Saksi 1',
+            'name' => 'Saksi 1',
             'email' => 'saksi1@gmail.com',
             'password' => Hash::make('password'),
             'telephone' => '081283928392',
@@ -32,7 +32,7 @@ class SaksiSeeder extends Seeder
         ]);
 
         $user2 = User::create([
-            'nama' => 'Saksi 2',
+            'name' => 'Saksi 2',
             'email' => 'saksi2@gmail.com',
             'password' => Hash::make('password'),
             'telephone' => '082283023341',

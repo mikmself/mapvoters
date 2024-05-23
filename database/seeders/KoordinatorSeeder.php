@@ -13,7 +13,7 @@ class KoordinatorSeeder extends Seeder
     public function run(): void
     {
         $user = User::create([
-            'nama' => 'Koor 1',
+            'name' => 'Koor 1',
             'email' => 'koor1@gmail.com',
             'password' => Hash::make('password'),
             'telephone' => '081972892892',
