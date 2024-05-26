@@ -11,7 +11,7 @@ class PaginationHandler extends Handlers {
     public static string | null $resource = KabupatenResource::class;
 
     public static bool $public = true;
-    
+
     public function handler()
     {
         $query = static::getEloquentQuery();
@@ -21,6 +21,7 @@ class PaginationHandler extends Handlers {
         ->allowedFields($model::$allowedFields ?? [])
         ->allowedSorts($model::$allowedSorts ?? [])
         ->allowedFilters($model::$allowedFilters ?? [])
+            ->with('provinsi', 'kecamatan', 'saksi','pemilihPotensial')
         ->allowedIncludes($model::$allowedIncludes ?? null)
         ->paginate(request()->query('per_page'))
         ->appends(request()->query());
