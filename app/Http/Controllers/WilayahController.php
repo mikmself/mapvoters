@@ -94,5 +94,37 @@ class WilayahController extends Controller
             'data' => $kelurahan
         ]);
     }
+    public function getProvinsi()
+    {
+        $provinsi = Provinsi::all();
+        return response()->json([
+            'message' => 'Data provinsi berhasil diambil',
+            'data' => $provinsi
+        ]);
+    }
+    public function getKabupaten($idProvinsi)
+    {
+        $kabupaten = Kabupaten::where('provinsi_id', $idProvinsi)->get();
+        return response()->json([
+            'message' => 'Data kabupaten berhasil diambil',
+            'data' => $kabupaten
+        ]);
+    }
+    public function getKecamatan($idKabupaten)
+    {
+        $kecamatan = Kecamatan::where('kabupaten_id', $idKabupaten)->get();
+        return response()->json([
+            'message' => 'Data kecamatan berhasil diambil',
+            'data' => $kecamatan
+        ]);
+    }
+    public function getKelurahan($idKecamatan)
+    {
+        $kelurahan = Kelurahan::where('kecamatan_id', $idKecamatan)->get();
+        return response()->json([
+            'message' => 'Data kelurahan berhasil diambil',
+            'data' => $kelurahan
+        ]);
+    }
 
 }

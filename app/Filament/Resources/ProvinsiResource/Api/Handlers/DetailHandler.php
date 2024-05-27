@@ -21,7 +21,7 @@ class DetailHandler extends Handlers
         try {
             $id = $request->route('id');
             $query = QueryBuilder::for(static::getEloquentQuery());
-            $query = $query->where(static::getKeyName(), $id)->firstOrFail();
+            $query = $query->with('kabupaten')->where(static::getKeyName(), $id)->firstOrFail();
             if (!$query) {
                 return static::sendNotFoundResponse();
             }

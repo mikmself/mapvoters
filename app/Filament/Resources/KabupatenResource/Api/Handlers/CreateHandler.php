@@ -1,7 +1,10 @@
 <?php
 namespace App\Filament\Resources\KabupatenResource\Api\Handlers;
 
+use App\Models\Kabupaten;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Validator;
 use Rupadana\ApiService\Http\Handlers;
 use App\Filament\Resources\KabupatenResource;
 
@@ -9,6 +12,7 @@ class CreateHandler extends Handlers {
     public static string | null $uri = '/';
     public static string | null $resource = KabupatenResource::class;
 
+    public static bool $public = true;
     public static function getMethod()
     {
         return Handlers::POST;
@@ -20,12 +24,27 @@ class CreateHandler extends Handlers {
 
     public function handler(Request $request)
     {
-        $model = new (static::getModel());
-
-        $model->fill($request->all());
-
-        $model->save();
-
-        return static::sendSuccessResponse($model, "Successfully Create Resource");
+        try {
+            DB::beginTransaction();
+            $validator = Validator::make($request->all(),[
+                'id' => 'reqired|integer|unique:kabupaten,id',
+                'nama' => 'required|string',
+                'provinsi_id' => 'required|exists:provinsi,id|integer',
+            ]);
+            if ($validator->fails()) {
+                return static::sendErrorResponse($validator->errors(), $validator->errors(), 422);
+            }
+            $newModel = Kabupaten::create([
+                'id' => $request->id,
+                'nama' => $request->nama,
+                'provinsi_id' => $request->provinsi_id,
+            ]);
+            $kabupaten = Kabupaten::where('id', $newModel->id)->first();
+            DB::commit();
+            return static::sendSuccessResponse($kabupaten, 'Successfully Create Resource');
+        }catch (\Exception $e) {
+            DB::rollBack();
+            return static::sendErrorResponse($e->getMessage(), 'Failed to Create Resource', 500);
+        }
     }
 }

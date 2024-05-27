@@ -33,13 +33,15 @@ class UpdateHandler extends Handlers {
                 $response = static::sendNotFoundResponse();
             } else {
                 $validator = Validator::make($request->all(), [
-                    'name' => 'sometimes|string',
+                    'id' => 'sometimes|int|unique:provinsi,id',
+                    'nama' => 'sometimes|string',
                 ]);
                 if ($validator->fails()) {
                     $response = static::sendErrorResponse($validator->errors(), $validator->errors(), 422);
                 } else {
                     $model->update([
-                        'name' => $request->name ? $request->name : $model->name,
+                        'id' => $request->id ? $request->id : $model->id,
+                        'nama' => $request->nama ? $request->nama : $model->nama,
                     ]);
                     $provinsi = Provinsi::find($model->id);
                     DB::commit();
@@ -49,7 +51,7 @@ class UpdateHandler extends Handlers {
         }
         catch (\Exception $e) {
             DB::rollBack();
-            $response = static::sendErrorResponse($e->getMessage(), $e->getMessage(), 500);
+            $response = static::sendErrorResponse($e->getMessage(), "Failed to Update Resource", 500);
         }
         return $response;
     }
