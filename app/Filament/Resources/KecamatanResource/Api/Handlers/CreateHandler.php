@@ -29,13 +29,13 @@ class CreateHandler extends Handlers {
             DB::beginTransaction();
             $validator = Validator::make($request->all(),[
                 'nama' => 'required|string',
-                'kabupaten_id' => 'required',
+                'kabupaten_id' => 'required|exists:kabupaten,id|integer',
             ]);
             if ($validator->fails()) {
                 return static::sendErrorResponse($validator->errors(), $validator->errors(), 422);
             }
             $newModel = Kecamatan::create([
-                'nama' => $request->name,
+                'nama' => $request->nama,
                 'kabupaten_id' => $request->kabupaten_id,
             ]);
             $kecamatan = Kecamatan::where('id', $newModel->id)->first();

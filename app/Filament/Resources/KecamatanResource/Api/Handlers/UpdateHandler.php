@@ -34,12 +34,14 @@ class UpdateHandler extends Handlers {
             } else {
                 $validator = Validator::make($request->all(), [
                     'nama' => 'sometimes|string',
+                    'kabupaten_id' => 'sometimes|exists:kabupaten,id|integer',
                 ]);
                 if ($validator->fails()) {
                     $response = static::sendErrorResponse($validator->errors(), $validator->errors(), 422);
                 } else {
                     $model->update([
                         'nama' => $request->nama ? $request->nama : $model->nama,
+                        'kabupaten_id' => $request->kabupaten_id ? $request->kabupaten_id : $model->kabupaten_id,
                     ]);
                     $model = Kecamatan::find($model->id);
                     DB::commit();
@@ -48,7 +50,7 @@ class UpdateHandler extends Handlers {
             }
         }catch (\Exception $e) {
             DB::rollBack();
-            $response = static::sendErrorResponse($e->getMessage(), $e->getMessage(), 500);
+            $response = static::sendErrorResponse($e->getMessage(), "Failed to Update Resource", 500);
         }
         return $response;
     }
