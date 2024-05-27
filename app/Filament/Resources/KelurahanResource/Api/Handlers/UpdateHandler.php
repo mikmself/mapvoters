@@ -34,7 +34,7 @@ class UpdateHandler extends Handlers {
             } else {
                 $validator = Validator::make($request->all(), [
                     'nama' => 'sometimes|string',
-                    'kecamatan_id' => 'sometimes|integer',
+                    'kecamatan_id' => 'sometimes|integer|exists:kecamatan,id',
                 ]);
                 if ($validator->fails()) {
                     $response = static::sendErrorResponse($validator->errors(), $validator->errors(), 422);
@@ -50,7 +50,7 @@ class UpdateHandler extends Handlers {
             }
         }catch (\Exception $e) {
             DB::rollBack();
-            $response = static::sendErrorResponse($e->getMessage(), $e->getMessage(), 500);
+            $response = static::sendErrorResponse($e->getMessage(), "Failed to Update Resource", 500);
         }
         return $response;
     }

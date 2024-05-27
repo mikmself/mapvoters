@@ -33,7 +33,7 @@ class DeleteHandler extends Handlers {
             return static::sendSuccessResponse($model, "Successfully Delete Resource");
         }catch (\Exception $e) {
             DB::rollBack();
-            return static::sendErrorResponse($e->getMessage(), $e->getMessage(), 500);
+            return static::sendErrorResponse($e->getMessage(), "Failed to Delete Resource", 500);
         }
     }
 }
