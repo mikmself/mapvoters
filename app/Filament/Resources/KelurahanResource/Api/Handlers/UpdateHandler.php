@@ -33,6 +33,7 @@ class UpdateHandler extends Handlers {
                 $response = static::sendNotFoundResponse();
             } else {
                 $validator = Validator::make($request->all(), [
+                    'id' => 'sometimes|integer|unique:kelurahan,id,'.$model->id,
                     'nama' => 'sometimes|string',
                     'kecamatan_id' => 'sometimes|integer|exists:kecamatan,id',
                 ]);
@@ -40,6 +41,7 @@ class UpdateHandler extends Handlers {
                     $response = static::sendErrorResponse($validator->errors(), $validator->errors(), 422);
                 } else {
                     $model->update([
+                        'id' => $request->id ? $request->id : $model->id,
                         'nama' => $request->nama ? $request->nama : $model->nama,
                         'kecamatan_id' => $request->kecamatan_id ? $request->kecamatan_id : $model->kecamatan_id,
                     ]);

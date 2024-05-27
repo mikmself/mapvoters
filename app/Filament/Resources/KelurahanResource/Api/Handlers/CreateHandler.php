@@ -28,6 +28,7 @@ class CreateHandler extends Handlers {
         try {
             DB::beginTransaction();
             $validator = Validator::make($request->all(),[
+                'id' => 'required|integer|unique:kelurahan,id',
                 'nama' => 'required|string',
                 'kecamatan_id' => 'required|integer|exists:kecamatan,id',
             ]);
@@ -35,6 +36,7 @@ class CreateHandler extends Handlers {
                 return static::sendErrorResponse($validator->errors(), $validator->errors(), 422);
             }
             $newModel = Kelurahan::create([
+                'id' => $request->id,
                 'nama' => $request->nama,
                 'kecamatan_id' => $request->kecamatan_id,
             ]);

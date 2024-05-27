@@ -33,12 +33,14 @@ class UpdateHandler extends Handlers {
                 $response = static::sendNotFoundResponse();
             } else {
                 $validator = Validator::make($request->all(), [
+                    'id' => 'sometimes|int|unique:provinsi,id',
                     'nama' => 'sometimes|string',
                 ]);
                 if ($validator->fails()) {
                     $response = static::sendErrorResponse($validator->errors(), $validator->errors(), 422);
                 } else {
                     $model->update([
+                        'id' => $request->id ? $request->id : $model->id,
                         'nama' => $request->nama ? $request->nama : $model->nama,
                     ]);
                     $provinsi = Provinsi::find($model->id);
