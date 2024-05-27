@@ -11,7 +11,7 @@ class Kelurahan extends Model
     public $table = 'kelurahan';
     protected $primaryKey = 'id';
     public $incrementing = false;
-    protected $fillable = ['nama_kelurahan', 'kecamatan_id'];
+    protected $fillable = ['id','nama_kelurahan', 'kecamatan_id'];
     public $timestamps = false;
 
     public function kecamatan()
