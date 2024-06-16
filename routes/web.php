@@ -23,3 +23,4 @@ Route::get('/api/get-kecamatan-kabupaten/{idKabupaten}', [\App\Http\Controllers\
 Route::get('/api/get-kelurahan-kecamatan/{idKecamatan}', [\App\Http\Controllers\WilayahController::class, 'getKelurahan']);
 
 Route::get('/api/get-suarabytps/{idPaslon}/{idKelurahan}', [App\Http\Controllers\AmbilSuaraController::class, 'getDataTPS'],);
+
