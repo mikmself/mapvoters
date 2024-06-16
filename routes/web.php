@@ -17,3 +17,5 @@ Route::get('/api/get-provinsi', [\App\Http\Controllers\WilayahController::class,
 Route::get('/api/get-kabupaten-provinsi/{idProvinsi}', [\App\Http\Controllers\WilayahController::class, 'getKabupaten']);
 Route::get('/api/get-kecamatan-kabupaten/{idKabupaten}', [\App\Http\Controllers\WilayahController::class, 'getKecamatan']);
 Route::get('/api/get-kelurahan-kecamatan/{idKecamatan}', [\App\Http\Controllers\WilayahController::class, 'getKelurahan']);
+#Route Untuk GET NO. TPS, Jumlah Suara dan Foto C1
+Route::get('/api/get-suarabytps/{idPaslon}/{idKelurahan}', [App\Http\Controllers\ambilsuaracontroller::class, 'getDataTPS'],);
