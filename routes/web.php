@@ -7,6 +7,8 @@ Route::get('/', function () {
 });
 
 Route::post('/api/auth/login', [App\Http\Controllers\AuthController::class, 'login']);
+Route::post('/api/auth/register', [App\Http\Controllers\AuthController::class, 'register']);
+Route::get('/api/auth/logout', [App\Http\Controllers\AuthController::class, 'logout']);
 
 //Route Tambahan
 Route::get('/api/pemetaan-provinsi/{idPaslon}', [\App\Http\Controllers\WilayahController::class, 'pemetaanProvinsi']);
