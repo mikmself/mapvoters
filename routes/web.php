@@ -6,6 +6,10 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::post('/api/auth/login', [App\Http\Controllers\AuthController::class, 'login']);
+Route::post('/api/auth/register', [App\Http\Controllers\AuthController::class, 'register']);
+Route::get('/api/auth/logout', [App\Http\Controllers\AuthController::class, 'logout']);
+
 //Route Tambahan
 Route::get('/api/pemetaan-provinsi/{idPaslon}', [\App\Http\Controllers\WilayahController::class, 'pemetaanProvinsi']);
 Route::get('/api/pemetaan-kabupaten/{idPaslon}', [\App\Http\Controllers\WilayahController::class,'pemetaanKabupaten']);
@@ -17,5 +21,6 @@ Route::get('/api/get-provinsi', [\App\Http\Controllers\WilayahController::class,
 Route::get('/api/get-kabupaten-provinsi/{idProvinsi}', [\App\Http\Controllers\WilayahController::class, 'getKabupaten']);
 Route::get('/api/get-kecamatan-kabupaten/{idKabupaten}', [\App\Http\Controllers\WilayahController::class, 'getKecamatan']);
 Route::get('/api/get-kelurahan-kecamatan/{idKecamatan}', [\App\Http\Controllers\WilayahController::class, 'getKelurahan']);
-#Route Untuk GET NO. TPS, Jumlah Suara dan Foto C1
-Route::get('/api/get-suarabytps/{idPaslon}/{idKelurahan}', [App\Http\Controllers\GET_Suara_ByTPS::class, 'getDataTPS'],);
+
+Route::get('/api/get-suarabytps/{idPaslon}/{idKelurahan}', [App\Http\Controllers\AmbilSuaraController::class, 'getDataTPS'],);
+
