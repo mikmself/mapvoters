@@ -30,4 +30,8 @@ class Paslon extends Model
     {
         return $this->hasMany(Koordinator::class);
     }
+    public function pengaturan()
+    {
+        return $this->hasOne(Pengaturan::class);
+    }
 }
