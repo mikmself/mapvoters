@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Koordinator;
 use App\Models\Paslon;
+use App\Models\Saksi;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -40,16 +42,26 @@ class AuthController extends Controller
             $user->setRememberToken($token);
             $user->save();
             $paslon = Paslon::where('user_id', $user->id)->first();
+            $koordinator = Koordinator::where('user_id', $user->id)->first();
+            $saksi = Saksi::where('user_id', $user->id)->first();
+            $logindata = null;
+            if ($saksi) {
+                $logindata = $saksi;
+            } elseif ($koordinator) {
+                $logindata = $koordinator;
+            } elseif ($paslon) {
+                $logindata = $paslon;
+            }
             return response()->json([
                 'success' => true,
                 'message' => 'Login successful',
                 'data' => [
                     'user' => $user,
-                    'paslon' => $paslon,
+                    'logindata' => $logindata,
+                    // 'koordinator' => $koordinator,
                     'token' => $token
                 ]
             ], 200);
-
         } catch (\Exception $e) {
             return response()->json([
                 'success' => false,
@@ -84,7 +96,7 @@ class AuthController extends Controller
                 'role' => 'paslon'
             ]);
             $newModel = Paslon::create([
-                'foto' => $this->prosesFoto($request,'paslon'),
+                'foto' => $this->prosesFoto($request, 'paslon'),
                 'type' => $request->type,
                 'nomor_urut' => $request->nomor_urut,
                 'dapil' => $request->dapil,
@@ -98,7 +110,7 @@ class AuthController extends Controller
                 'message' => 'Successfully Create Resource',
                 'data' => $paslon
             ], 201);
-        }catch (\Exception $e) {
+        } catch (\Exception $e) {
             DB::rollBack();
             return response()->json([
                 'success' => false,

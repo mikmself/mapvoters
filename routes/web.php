@@ -23,5 +23,6 @@ Route::get('/api/get-kecamatan-kabupaten/{idKabupaten}', [\App\Http\Controllers\
 Route::get('/api/get-kelurahan-kecamatan/{idKecamatan}', [\App\Http\Controllers\WilayahController::class, 'getKelurahan']);
 
 Route::get('/api/get-suarabytps/{idPaslon}/{idKelurahan}', [App\Http\Controllers\AmbilSuaraController::class, 'getDataTPS'],);
-
 Route::get('/api/get-dashboard-data/{idPaslon}', [App\Http\Controllers\DashboardController::class, 'getDashboardData']);
+Route::post('/api/koordinator/search', [App\Http\Controllers\KoordinatorController::class, 'search']);
+
