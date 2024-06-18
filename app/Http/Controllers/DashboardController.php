@@ -20,7 +20,7 @@ class DashboardController extends Controller
             $totalSuaraPotensial = PemilihPotensial::whereHas('koordinator', function ($query) use ($idPaslon) {
                 $query->where('paslon_id', $idPaslon);
             })->count();
-            $perhitunganSuaraReal = Saksi::whereHas('koordinator', function ($query) use ($idPaslon) {
+            $perhitunganSuaraReal = (int) Saksi::whereHas('koordinator', function ($query) use ($idPaslon) {
                 $query->where('paslon_id', $idPaslon);
             })->sum('jumlah_suara');
             return response()->json([
