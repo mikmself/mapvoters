@@ -24,3 +24,4 @@ Route::get('/api/get-kelurahan-kecamatan/{idKecamatan}', [\App\Http\Controllers\
 
 Route::get('/api/get-suarabytps/{idPaslon}/{idKelurahan}', [App\Http\Controllers\AmbilSuaraController::class, 'getDataTPS'],);
 
+Route::post('/api/koordinator/search', [App\Http\Controllers\KoordinatorController::class, 'search']);
