@@ -24,3 +24,4 @@ Route::get('/api/get-kelurahan-kecamatan/{idKecamatan}', [\App\Http\Controllers\
 
 Route::get('/api/get-suarabytps/{idPaslon}/{idKelurahan}', [App\Http\Controllers\AmbilSuaraController::class, 'getDataTPS'],);
 
+Route::get('/api/get-dashboard-data/{idPaslon}', [App\Http\Controllers\DashboardController::class, 'getDashboardData']);
