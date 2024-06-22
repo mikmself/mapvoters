@@ -31,3 +31,5 @@ Route::get('/api/pemetaan-c1-kabupaten/{idProvinsi}/{idPaslon}', [\App\Http\Cont
 Route::get('/api/pemetaan-c1-kecamatan/{idKabupaten}/{idPaslon}', [\App\Http\Controllers\PemetaanC1Controller::class, 'C1Kecamatan']);
 Route::get('/api/pemetaan-c1-kelurahan/{idKecamatan}/{idPaslon}', [\App\Http\Controllers\PemetaanC1Controller::class, 'C1Kelurahan']);
 Route::get('/api/pemetaan-c1-TPS/{idKelurahan}/{idPaslon}', [\App\Http\Controllers\PemetaanC1Controller::class, 'C1TPS']);
+
+Route::post('/api/v2/registerpaslon', [App\Http\Controllers\PaslonController::class, 'store']);
