@@ -26,3 +26,8 @@ Route::get('/api/get-suarabytps/{idPaslon}/{idKelurahan}', [App\Http\Controllers
 Route::get('/api/get-dashboard-data/{idPaslon}', [App\Http\Controllers\DashboardController::class, 'getDashboardData']);
 Route::post('/api/koordinator/search', [App\Http\Controllers\KoordinatorController::class, 'search']);
 
+//routetambahan
+Route::get('/api/pemetaanPROV/{idPaslon}', [\App\Http\Controllers\PemetaanSuaraController::class, 'pemetaanSuaraProvinsi']);
+Route::get('/api/pemetaanKAB/{idPaslon}', [\App\Http\Controllers\PemetaanSuaraController::class, 'pemetaanSuaraKabupaten']);
+Route::get('/api/pemetaanKEC/{idPaslon}', [\App\Http\Controllers\PemetaanSuaraController::class, 'pemetaanSuaraKecamatan']);
+Route::get('/api/pemetaanKEL/{idPaslon}', [\App\Http\Controllers\PemetaanSuaraController::class, 'pemetaanSuaraKelurahan']);
