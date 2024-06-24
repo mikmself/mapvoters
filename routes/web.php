@@ -33,3 +33,4 @@ Route::get('/api/pemetaan-c1-kelurahan/{idKecamatan}/{idPaslon}', [\App\Http\Con
 Route::get('/api/pemetaan-c1-TPS/{idKelurahan}/{idPaslon}', [\App\Http\Controllers\PemetaanC1Controller::class, 'C1TPS']);
 
 Route::post('/api/v2/registerpaslon', [App\Http\Controllers\PaslonController::class, 'store']);
+Route::post('/api/v2/uploadc1/{idSaksi}', [\App\Http\Controllers\UploadC1Controller::class, 'UploadC1']);
