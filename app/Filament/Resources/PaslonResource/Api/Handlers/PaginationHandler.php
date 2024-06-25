@@ -22,7 +22,7 @@ class PaginationHandler extends Handlers {
         ->allowedSorts($model::$allowedSorts ?? [])
         ->allowedFilters($model::$allowedFilters ?? [])
         ->allowedIncludes($model::$allowedIncludes ?? null)
-            ->with('user')
+            ->with('user','partai')
         ->paginate(request()->query('per_page'))
         ->appends(request()->query());
 

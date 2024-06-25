@@ -5,6 +5,8 @@ use App\Models\Koordinator;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 use Rupadana\ApiService\Http\Handlers;
@@ -57,11 +59,12 @@ class UpdateHandler extends Handlers {
                         'password' => $request->password ? Hash::make($request->password) : $user->password,
                     ]);
                     $model->update([
-                        'nama' => $request->nama ? $request->nama : $model->nama,
                         'email' => $request->email ? $request->email : $model->email,
                         'telepon' => $request->telepon  ? $request->telepon : $model->telepon,
                         'foto' => $fotoPath,
                     ]);
+                    Log::log('info', 'Data Koordinator', ['koordinator' => $model]);
+                    Log::log('info', 'Data User', ['koordinator' => $user]);
                     $koordinator = Koordinator::with('user')->find($id);
                     DB::commit();
                     $response =  static::sendSuccessResponse($koordinator,"Successfully Updated Resource");
