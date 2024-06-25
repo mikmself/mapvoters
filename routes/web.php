@@ -26,6 +26,14 @@ Route::get('/api/get-suarabytps/{idPaslon}/{idKelurahan}', [App\Http\Controllers
 Route::get('/api/get-dashboard-data/{idPaslon}', [App\Http\Controllers\DashboardController::class, 'getDashboardData']);
 Route::post('/api/koordinator/search', [App\Http\Controllers\KoordinatorController::class, 'search']);
 
+Route::get('/api/pemetaan-c1-provinsi/{idPaslon}', [\App\Http\Controllers\PemetaanC1Controller::class, 'C1Provinsi']);
+Route::get('/api/pemetaan-c1-kabupaten/{idProvinsi}/{idPaslon}', [\App\Http\Controllers\PemetaanC1Controller::class, 'C1Kabupaten']);
+Route::get('/api/pemetaan-c1-kecamatan/{idKabupaten}/{idPaslon}', [\App\Http\Controllers\PemetaanC1Controller::class, 'C1Kecamatan']);
+Route::get('/api/pemetaan-c1-kelurahan/{idKecamatan}/{idPaslon}', [\App\Http\Controllers\PemetaanC1Controller::class, 'C1Kelurahan']);
+Route::get('/api/pemetaan-c1-TPS/{idKelurahan}/{idPaslon}', [\App\Http\Controllers\PemetaanC1Controller::class, 'C1TPS']);
+
+Route::post('/api/v2/registerpaslon', [App\Http\Controllers\PaslonController::class, 'store']);
+Route::post('/api/v2/uploadc1/{idSaksi}', [\App\Http\Controllers\UploadC1Controller::class, 'UploadC1']);
 //routetambahan
 Route::get('/api/pemetaanPROV/{idPaslon}', [\App\Http\Controllers\PemetaanSuaraController::class, 'pemetaanSuaraProvinsi']);
 Route::get('/api/pemetaanKAB/{idPaslon}', [\App\Http\Controllers\PemetaanSuaraController::class, 'pemetaanSuaraKabupaten']);
