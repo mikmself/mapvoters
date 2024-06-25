@@ -42,9 +42,9 @@ class UpdateHandler extends Handlers {
                         'paslon_id' => $request->paslon_id ? $request->paslon_id : $model->paslon_id,
                         'target_suara' => $request->target_suara ? $request->target_suara : $model->target_suara,
                     ]);
-                    $model = Pengaturan::find($model->id);
+                    $pengaturan = Pengaturan::find($model->id);
                     DB::commit();
-                    $response = static::sendSuccessResponse($model, "Successfully Updated Resource");
+                    $response = static::sendSuccessResponse($pengaturan, "Successfully Updated Resource");
                 }
             }
         }catch (\Exception $e) {
