@@ -35,7 +35,12 @@ Route::get('/api/pemetaan-c1-TPS/{idKelurahan}/{idPaslon}', [\App\Http\Controlle
 Route::post('/api/v2/registerpaslon', [App\Http\Controllers\PaslonController::class, 'store']);
 Route::post('/api/v2/uploadc1/{idSaksi}', [\App\Http\Controllers\UploadC1Controller::class, 'UploadC1']);
 //routetambahan
-Route::get('/api/pemetaanPROV/{idPaslon}', [\App\Http\Controllers\PemetaanSuaraController::class, 'pemetaanSuaraProvinsi']);
-Route::get('/api/pemetaanKAB/{idPaslon}', [\App\Http\Controllers\PemetaanSuaraController::class, 'pemetaanSuaraKabupaten']);
-Route::get('/api/pemetaanKEC/{idPaslon}', [\App\Http\Controllers\PemetaanSuaraController::class, 'pemetaanSuaraKecamatan']);
-Route::get('/api/pemetaanKEL/{idPaslon}', [\App\Http\Controllers\PemetaanSuaraController::class, 'pemetaanSuaraKelurahan']);
+// Route::get('/api/pemetaanPROV/{idPaslon}', [\App\Http\Controllers\PemetaanSuaraController::class, 'pemetaanSuaraProvinsi']);
+// Route::get('/api/pemetaanKAB/{idPaslon}', [\App\Http\Controllers\PemetaanSuaraController::class, 'pemetaanSuaraKabupaten']);
+// Route::get('/api/pemetaanKEC/{idPaslon}', [\App\Http\Controllers\PemetaanSuaraController::class, 'pemetaanSuaraKecamatan']);
+// Route::get('/api/pemetaanKEL/{idPaslon}', [\App\Http\Controllers\PemetaanSuaraController::class, 'pemetaanSuaraKelurahan']);
+
+Route::get('/api/pemetaanSuara-provinsi/{idPaslon}', [App\Http\Controllers\PemetaanSuaraController::class, 'pemataanSuaraProvinsi']);
+Route::get('/api/pemetaanSuara-kabupaten/{idProvinsi}/{idPaslon}', [\App\Http\Controllers\PemetaanSuaraController::class, 'pemataanSuaraKabupaten']);
+Route::get('/api/pemetaanSuara-kecamatan/{idKabupaten}/{idPaslon}', [\App\Http\Controllers\PemetaanSuaraController::class, 'pemetaanSuaraKecamatan']);
+Route::get('/api/pemetaanSuara-kelurahan/{idKecamatan}/{idPaslon}', [\App\Http\Controllers\PemetaanSuaraController::class, 'pemetaanSuaraKelurahan']);
