@@ -26,3 +26,4 @@ Route::get('/api/get-suarabytps/{idPaslon}/{idKelurahan}', [App\Http\Controllers
 Route::get('/api/get-dashboard-data/{idPaslon}', [App\Http\Controllers\DashboardController::class, 'getDashboardData']);
 Route::post('/api/koordinator/search', [App\Http\Controllers\KoordinatorController::class, 'search']);
 
+Route::post('/api/saksi/search', [App\Http\Controllers\SaksiController::class, 'search']);
