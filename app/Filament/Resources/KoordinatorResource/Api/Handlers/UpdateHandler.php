@@ -20,7 +20,7 @@ class UpdateHandler extends Handlers {
 
     public static function getMethod()
     {
-        return Handlers::PUT;
+        return Handlers::POST;
     }
 
     public static function getModel() {
