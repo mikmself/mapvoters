@@ -26,3 +26,8 @@ Route::get('/api/get-suarabytps/{idPaslon}/{idKelurahan}', [App\Http\Controllers
 Route::get('/api/get-dashboard-data/{idPaslon}', [App\Http\Controllers\DashboardController::class, 'getDashboardData']);
 Route::post('/api/koordinator/search', [App\Http\Controllers\KoordinatorController::class, 'search']);
 
+
+Route::get('/api/v2/pemilih-potensial/{idPaslon}', [App\Http\Controllers\PemilihPotensialController::class, 'getAllData']);
+Route::post('/api/pemilih-potensial', [App\Http\Controllers\PemilihPotensialController::class, 'store']);
+Route::post('/api/pemilih-potensial/update/{id}', [App\http\Controllers\PemilihPotensialController::class, 'update']);
+Route::delete('/api/v2/pemilih-potensial/{idpemilihPotensial}', [App\Http\Controllers\PemilihPotensialController::class, 'destroy']);
