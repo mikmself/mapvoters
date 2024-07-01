@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Saksi;
 use App\Models\User;
+use App\Models\Paslon;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -14,46 +15,10 @@ use Illuminate\Support\Facades\Validator;
 class SaksiController extends Controller
 {
     /**
-     * Display a listing of the resource.
-     */
-    // public function index($paslonId)
-    // {
-    //     $koordinator = Koordinator
-    //     if (isset($paslonId)) {
-    //         $saksi = Saksi::where('paslon_id', $paslonId)->get();
-    //     } else {
-    //         $saksi = Saksi::all();
-    //     }
-    //     return response()->json($saksi, Response::HTTP_OK);
-    // }
-
-    /**
-     * Store a newly created resource in storage.
+     * Store untuk create saksi.
      */
     public function store(Request $request)
     {
-        // $request->validate([
-        //     'tps' => 'required|string|max:255',
-        //     'provinsi_id' => 'required|exists:provinsi,id',
-        //     'kabupaten_id' => 'required|exists:kabupaten,id',
-        //     'kecamatan_id' => 'required|exists:kecamatan,id',
-        //     'kelurahan_id' => 'required|exists:kelurahan,id',
-        //     'user_id' => 'required|exists:users,id',
-        //     'koordinator_id' => 'required|exists:koordinator,id',
-        //     'paslon_id' => 'required|exists:paslon,id',
-        // ]);
-
-        // $saksi = Saksi::create($request->only([
-        //     'tps',
-        //     'provinsi_id',
-        //     'kabupaten_id',
-        //     'kecamatan_id',
-        //     'kelurahan_id',
-        //     'user_id',
-        //     'koordinator_id',
-        //     'paslon_id',
-        // ]));
-        // return response()->json($saksi, Response::HTTP_CREATED);
         try{
         $validator = Validator::make($request->all(), [
                 'tps' => 'required',
@@ -109,55 +74,62 @@ class SaksiController extends Controller
             ]);
         }
     }
-
-    /**
-     * Display the specified resource.
+     /**
+     * Show untuk menampilkan data.
      */
     public function show($id)
     {
-        $saksi = Saksi::find($id);
-        if (!$saksi) {
-            return response()->json(['message' => 'Saksi not found'], Response::HTTP_NOT_FOUND);
-        }
-        return response()->json($saksi, Response::HTTP_OK);
-    }
+        $paslon = Paslon::find($id);
+        $saksi = Saksi::whereHas('koordinator', function ($query) use ($id) {
+            $query->where('paslon_id', $id);
+        })->get();
 
+        return response()->json([
+            'message' => 'Data Saksi ' . $paslon->user->name . ' berhasil diambil',
+            'data' => $saksi,
+        ]);
+    }
+    
     /**
-     * Update the specified resource in storage.
+     * Update untuk mengedit saksi.
      */
     public function update(Request $request, $id)
     {
         $request->validate([
-            'tps' => 'required|string|max:255',
-            'provinsi_id' => 'required|exists:provinsi,id',
-            'kabupaten_id' => 'required|exists:kabupaten,id',
-            'kecamatan_id' => 'required|exists:kecamatan,id',
-            'kelurahan_id' => 'required|exists:kelurahan,id',
-            'user_id' => 'required|exists:users,id',
-            'koordinator_id' => 'required|exists:koordinator,id',
-            // 'paslon_id' => 'required|exists:paslon,id',
+            'tps' => 'sometimes|string|max:255',
+            'provinsi_id' => 'sometimes|exists:provinsi,id',
+            'kabupaten_id' => 'sometimes|exists:kabupaten,id',
+            'kecamatan_id' => 'sometimes|exists:kecamatan,id',
+            'kelurahan_id' => 'sometimes|exists:kelurahan,id',
+            'name' => 'sometimes',
+            'telephone' => 'sometimes',
         ]);
-
+        DB::beginTransaction();
         $saksi = Saksi::find($id);
         if (!$saksi) {
             return response()->json(['message' => 'Saksi not found'], Response::HTTP_NOT_FOUND);
         }
-
-        $saksi->update($request->only([
-            'tps',
-            'provinsi_id',
-            'kabupaten_id',
-            'kecamatan_id',
-            'kelurahan_id',
-            'user_id',
-            'koordinator_id',
-            // 'paslon_id',
-        ]));
-        return response()->json($saksi, Response::HTTP_OK);
+        
+        $saksi->update([
+            'tps' => $request->input('tps'),
+            'provinsi_id' => $request->input('provinsi_id'),
+            'kabupaten_id' => $request->input('kabupaten_id'),
+            'kecamatan_id' => $request->input('kecamatan_id'),
+            'kelurahan_id' => $request->input('kelurahan_id'),
+        ]);
+        $user = User::find($saksi->user_id);
+        $user->update([
+            'name' => $request->input('name'),
+            'telephone' => $request->input('telephone'),
+        ]);
+        return response()->json([
+            'saksi' => $saksi,
+            'user' => $user
+        ], Response::HTTP_OK);
     }
-
+    
     /**
-     * Remove the specified resource from storage.
+     * Delete untuk menghapus saksi.
      */
     public function delete($id)
     {
@@ -168,24 +140,5 @@ class SaksiController extends Controller
 
         $saksi->delete();
         return response()->json(['message' => 'Saksi deleted successfully'], Response::HTTP_OK);
-    }
-
-    public function search(Request $request)
-    {
-        $saksi = Saksi::with('koordinator','user')->whereHas('user', function ($query) use ($request) {
-            $query->where('name', $request->name);
-        })->first();
-
-        if ($saksi) {
-            return response()->json([
-                'message' => 'Data saksi ditemukan',
-                'data' => $saksi
-            ]);
-        } else {
-            return response()->json([
-                'message' => 'Data saksi tidak ditemukan',
-                'data' => []
-            ], 404);
-        }
     }
 }

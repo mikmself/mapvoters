@@ -27,6 +27,8 @@ Route::get('/api/get-dashboard-data/{idPaslon}', [App\Http\Controllers\Dashboard
 Route::post('/api/koordinator/search', [App\Http\Controllers\KoordinatorController::class, 'search']);
 
 
+Route::get('/api/v2/saksi/{id}', [App\Http\Controllers\SaksiController::class, 'show']);
+Route::post('/api/v2/saksi', [App\Http\Controllers\SaksiController::class, 'store']);
 Route::get('/api/v2/pemilih-potensial/{idPaslon}', [App\Http\Controllers\PemilihPotensialController::class, 'getAllData']);
 Route::post('/api/pemilih-potensial', [App\Http\Controllers\PemilihPotensialController::class, 'store']);
 Route::post('/api/pemilih-potensial/update/{id}', [App\http\Controllers\PemilihPotensialController::class, 'update']);
