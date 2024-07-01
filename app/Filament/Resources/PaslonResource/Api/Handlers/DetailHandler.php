@@ -21,7 +21,7 @@ class DetailHandler extends Handlers
         try {
             $id = $request->route('id');
             $query = static::getEloquentQuery();
-            $query = $query->with('user')->where(static::getKeyName(), $id)->firstOrFail();
+            $query = $query->with('user','partai')->where(static::getKeyName(), $id)->firstOrFail();
             if (!$query) {
                 return static::sendNotFoundResponse();
             }

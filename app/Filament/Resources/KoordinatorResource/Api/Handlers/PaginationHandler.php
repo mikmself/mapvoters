@@ -23,6 +23,7 @@ class PaginationHandler extends Handlers {
         ->allowedFilters($model::$allowedFilters ?? [])
         ->allowedIncludes($model::$allowedIncludes ?? null)
             ->with('user')
+            ->where('paslon_id', request()->query('paslon_id'))
         ->paginate(request()->query('per_page'))
         ->appends(request()->query());
 
