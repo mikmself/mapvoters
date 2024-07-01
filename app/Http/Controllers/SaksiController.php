@@ -89,6 +89,45 @@ class SaksiController extends Controller
             'data' => $saksi,
         ]);
     }
+    
+    /**
+     * Update untuk mengedit saksi.
+     */
+    public function update(Request $request, $id)
+    {
+        $request->validate([
+            'tps' => 'sometimes|string|max:255',
+            'provinsi_id' => 'sometimes|exists:provinsi,id',
+            'kabupaten_id' => 'sometimes|exists:kabupaten,id',
+            'kecamatan_id' => 'sometimes|exists:kecamatan,id',
+            'kelurahan_id' => 'sometimes|exists:kelurahan,id',
+            'name' => 'sometimes',
+            'telephone' => 'sometimes',
+        ]);
+        DB::beginTransaction();
+        $saksi = Saksi::find($id);
+        if (!$saksi) {
+            return response()->json(['message' => 'Saksi not found'], Response::HTTP_NOT_FOUND);
+        }
+        
+        $saksi->update([
+            'tps' => $request->input('tps'),
+            'provinsi_id' => $request->input('provinsi_id'),
+            'kabupaten_id' => $request->input('kabupaten_id'),
+            'kecamatan_id' => $request->input('kecamatan_id'),
+            'kelurahan_id' => $request->input('kelurahan_id'),
+        ]);
+        $user = User::find($saksi->user_id);
+        $user->update([
+            'name' => $request->input('name'),
+            'telephone' => $request->input('telephone'),
+        ]);
+        return response()->json([
+            'saksi' => $saksi,
+            'user' => $user
+        ], Response::HTTP_OK);
+    }
+
 
 }
 
