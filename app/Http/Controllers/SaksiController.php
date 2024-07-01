@@ -127,7 +127,18 @@ class SaksiController extends Controller
             'user' => $user
         ], Response::HTTP_OK);
     }
+    
+    /**
+     * Delete untuk menghapus saksi.
+     */
+    public function delete($id)
+    {
+        $saksi = Saksi::find($id);
+        if (!$saksi) {
+            return response()->json(['message' => 'Saksi not found'], Response::HTTP_NOT_FOUND);
+        }
 
-
+        $saksi->delete();
+        return response()->json(['message' => 'Saksi deleted successfully'], Response::HTTP_OK);
+    }
 }
-
