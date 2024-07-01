@@ -35,7 +35,7 @@ class PemetaanSuaraController extends Controller
             });
 
             return response()->json([
-                'message' => 'Data pemataanSuara by provinsi paslon ' . $paslon->user->name . ' berhasil diambil',
+                'message' => 'Data pemilihPotensial provinsi paslon ' . $paslon->user->name . ' berhasil diambil',
                 'data' => $provinsi
             ]);
         } catch (\Exception $e) {
@@ -50,7 +50,7 @@ class PemetaanSuaraController extends Controller
 
 
 
-    public function pemataanSuaraKabupaten($idProvinsi, $idPaslon)
+    public function pemilihpotensialKabupaten($idProvinsi, $idPaslon)
     {
         $paslon = Paslon::find($idPaslon);
         $kabupaten = Kabupaten::whereHas('provinsi', function ($query) use ($idProvinsi) {
@@ -68,12 +68,12 @@ class PemetaanSuaraController extends Controller
         });
 
         return response()->json([
-            'message' => 'Data pemataanSuara by kabupaten  paslon ' . $paslon->user->name . ' berhasil diambil',
+            'message' => 'Data pemilihPotensial kabupaten  paslon ' . $paslon->user->name . ' berhasil diambil',
             'data' => $kabupaten
         ]);
     }
 
-    public function pemataanSuaraKecamatan($idKabupaten, $idPaslon)
+    public function pemilihpotensialKecamataan($idKabupaten, $idPaslon)
     {
         $paslon = Paslon::find($idPaslon);
         $kecamatan = Kecamatan::whereHas('kabupaten', function ($query) use ($idKabupaten) {
@@ -91,12 +91,12 @@ class PemetaanSuaraController extends Controller
         });
 
         return response()->json([
-            'message' => 'Data pemataanSuara by Kecamatan  paslon ' . $paslon->user->name . ' berhasil diambil',
+            'message' => 'Data C1 by Kecamatan  paslon ' . $paslon->user->name . ' berhasil diambil',
             'data' => $kecamatan
         ]);
     }
 
-    public function pemataanSuaraKelurahan($idKecamatan, $idPaslon)
+    public function pemilihpotensialKelurahan($idKecamatan, $idPaslon)
     {
         $paslon = Paslon::find($idPaslon);
         $kelurahan = Kelurahan::whereHas('kecamatan', function ($query) use ($idKecamatan) {
@@ -114,7 +114,7 @@ class PemetaanSuaraController extends Controller
         });
 
         return response()->json([
-            'message' => 'Data pemataanSuara by Kelurahan  paslon ' . $paslon->user->name . ' berhasil diambil',
+            'message' => 'Data pemilihPotensial Kelurahan  ' . $paslon->user->name . ' berhasil diambil',
             'data' => $kelurahan
         ]);
     }
