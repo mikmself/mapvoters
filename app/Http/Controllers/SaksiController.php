@@ -39,7 +39,7 @@ class SaksiController extends Controller
                 'data' => $validator->errors()
             ]);
         }
-        
+
         DB::beginTransaction();
         $user = User::create([
             'name' => $request->name,
@@ -77,19 +77,30 @@ class SaksiController extends Controller
      /**
      * Show untuk menampilkan data.
      */
-    public function show($id)
+    public function show($id, $role)
     {
-        $paslon = Paslon::find($id);
-        $saksi = Saksi::whereHas('koordinator', function ($query) use ($id) {
-            $query->where('paslon_id', $id);
-        })->get();
+        if($role == 'paslon') {
+            $paslon = Paslon::find($id);
+            $saksi = Saksi::whereHas('koordinator', function ($query) use ($id) {
+                $query->where('paslon_id', $id);
+            })->get();
 
-        return response()->json([
-            'message' => 'Data Saksi ' . $paslon->user->name . ' berhasil diambil',
-            'data' => $saksi,
-        ]);
+            return response()->json([
+                'message' => 'Data Saksi ' . $paslon->user->name . ' berhasil diambil',
+                'data' => $saksi,
+            ]);
+        } else {
+            $saksi = Saksi::where('koordinator_id', $id)->get();
+            if (!$saksi) {
+                return response()->json(['message' => 'Saksi not found'], Response::HTTP_NOT_FOUND);
+            }
+            return response()->json([
+                'message' => 'Data Saksi berhasil diambil',
+                'data' => $saksi,
+            ]);
+        }
     }
-    
+
     /**
      * Update untuk mengedit saksi.
      */
@@ -109,7 +120,7 @@ class SaksiController extends Controller
         if (!$saksi) {
             return response()->json(['message' => 'Saksi not found'], Response::HTTP_NOT_FOUND);
         }
-        
+
         $saksi->update([
             'tps' => $request->input('tps'),
             'provinsi_id' => $request->input('provinsi_id'),
@@ -127,7 +138,7 @@ class SaksiController extends Controller
             'user' => $user
         ], Response::HTTP_OK);
     }
-    
+
     /**
      * Delete untuk menghapus saksi.
      */

@@ -80,18 +80,27 @@ class PemilihPotensialController extends Controller
         }
     }
 
-    public function getAllData($idPaslon)
+    public function getAllData($idPaslon,$role)
     {
         $paslon = Paslon::find($idPaslon);
-        $pemilih = PemilihPotensial::whereHas('koordinator', function ($query) use ($idPaslon) {
-            $query->where('paslon_id', $idPaslon);
-        })->get();
+        if($role == 'paslon'){
+            $pemilih = PemilihPotensial::whereHas('koordinator', function ($query) use ($idPaslon) {
+                $query->where('paslon_id', $idPaslon);
+            })->get();
 
-        return response()->json([
-            'message' => 'Data Saksi by provinsi  paslon ' . $paslon->user->name . ' berhasil diambil',
-            'data' => $pemilih,
+            return response()->json([
+                'message' => 'Data Saksi by provinsi  paslon ' . $paslon->user->name . ' berhasil diambil',
+                'data' => $pemilih,
 
-        ]);
+            ]);
+        } {
+            $pemilih = PemilihPotensial::where('koordinator_id', $idPaslon)->get();
+            return response()->json([
+                'message' => 'Data Saksi by provinsi  paslon ' . $paslon->user->name . ' berhasil diambil',
+                'data' => $pemilih,
+
+            ]);
+        }
     }
 
 
