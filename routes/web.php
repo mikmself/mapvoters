@@ -52,6 +52,6 @@ Route::post('/api/v2/uploadc1/{idSaksi}', [\App\Http\Controllers\UploadC1Control
 // Route::get('/api/pemetaanKEL/{idPaslon}', [\App\Http\Controllers\PemetaanSuaraController::class, 'pemetaanSuaraKelurahan']);
 
 Route::get('/api/pemetaanSuara-provinsi/{idPaslon}', [App\Http\Controllers\PemetaanSuaraController::class, 'pemataanSuaraProvinsi']);
-Route::get('/api/pemetaanSuara-kabupaten/{idProvinsi}/{idPaslon}', [\App\Http\Controllers\PemetaanSuaraController::class, 'pemataanSuaraKabupaten']);
-Route::get('/api/pemetaanSuara-kecamatan/{idKabupaten}/{idPaslon}', [\App\Http\Controllers\PemetaanSuaraController::class, 'pemetaanSuaraKecamatan']);
-Route::get('/api/pemetaanSuara-kelurahan/{idKecamatan}/{idPaslon}', [\App\Http\Controllers\PemetaanSuaraController::class, 'pemetaanSuaraKelurahan']);
+Route::get('/api/pemetaanSuara-kabupaten/{idProvinsi}/{idPaslon}', [\App\Http\Controllers\PemetaanSuaraController::class, 'pemilihpotensialKabupaten']);
+Route::get('/api/pemetaanSuara-kecamatan/{idKabupaten}/{idPaslon}', [\App\Http\Controllers\PemetaanSuaraController::class, 'pemilihpotensialKecamataan']);
+Route::get('/api/pemetaanSuara-kelurahan/{idKecamatan}/{idPaslon}', [\App\Http\Controllers\PemetaanSuaraController::class, 'pemilihpotensialKelurahan']);
