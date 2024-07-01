@@ -28,7 +28,6 @@ Route::post('/api/koordinator/search', [App\Http\Controllers\KoordinatorControll
 
 
 Route::get('/api/v2/saksi/{id}', [App\Http\Controllers\SaksiController::class, 'show']);
-// Route::post('/api/saksi/search', [App\Http\Controllers\SaksiController::class, 'search']);
 Route::post('/api/v2/saksi', [App\Http\Controllers\SaksiController::class, 'store']);
 Route::post('/api/saksi/update/{id}', [App\Http\Controllers\SaksiController::class, 'update']);
 Route::delete('/api/saksi/delete/{id}', [App\Http\Controllers\SaksiController::class, 'delete']);
