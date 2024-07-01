@@ -74,4 +74,21 @@ class SaksiController extends Controller
             ]);
         }
     }
+     /**
+     * Show untuk menampilkan data.
+     */
+    public function show($id)
+    {
+        $paslon = Paslon::find($id);
+        $saksi = Saksi::whereHas('koordinator', function ($query) use ($id) {
+            $query->where('paslon_id', $id);
+        })->get();
+
+        return response()->json([
+            'message' => 'Data Saksi ' . $paslon->user->name . ' berhasil diambil',
+            'data' => $saksi,
+        ]);
+    }
+
 }
+
