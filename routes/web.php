@@ -29,6 +29,13 @@ Route::post('/api/koordinator/search', [App\Http\Controllers\KoordinatorControll
 
 Route::get('/api/v2/saksi/{id}', [App\Http\Controllers\SaksiController::class, 'show']);
 Route::post('/api/v2/saksi', [App\Http\Controllers\SaksiController::class, 'store']);
+Route::get('/api/v2/pemilih-potensial/{idPaslon}', [App\Http\Controllers\PemilihPotensialController::class, 'getAllData']);
+Route::post('/api/pemilih-potensial', [App\Http\Controllers\PemilihPotensialController::class, 'store']);
+Route::post('/api/pemilih-potensial/update/{id}', [App\http\Controllers\PemilihPotensialController::class, 'update']);
+Route::delete('/api/v2/pemilih-potensial/{idpemilihPotensial}', [App\Http\Controllers\PemilihPotensialController::class, 'destroy']);
+// Route::get('/api/saksi/{id}', [App\Http\Controllers\SaksiController::class, 'show']);
+Route::post('/api/saksi/search', [App\Http\Controllers\SaksiController::class, 'search']);
+Route::post('/api/saksi', [App\Http\Controllers\SaksiController::class, 'store']);
 Route::post('/api/saksi/update/{id}', [App\Http\Controllers\SaksiController::class, 'update']);
 Route::delete('/api/saksi/delete/{id}', [App\Http\Controllers\SaksiController::class, 'delete']);
 
