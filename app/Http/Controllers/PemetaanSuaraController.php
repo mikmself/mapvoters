@@ -73,7 +73,7 @@ class PemetaanSuaraController extends Controller
         ]);
     }
 
-    public function pemataanSuaraKecamatan($idKabupaten, $idPaslon)
+    public function pemetaanSuaraKecamatan($idKabupaten, $idPaslon)
     {
         $paslon = Paslon::find($idPaslon);
         $kecamatan = Kecamatan::whereHas('kabupaten', function ($query) use ($idKabupaten) {
@@ -91,12 +91,12 @@ class PemetaanSuaraController extends Controller
         });
 
         return response()->json([
-            'message' => 'Data pemataanSuara by Kecamatan  paslon ' . $paslon->user->name . ' berhasil diambil',
+            'message' => 'Data C1 by Kecamatan  paslon ' . $paslon->user->name . ' berhasil diambil',
             'data' => $kecamatan
         ]);
     }
 
-    public function pemataanSuaraKelurahan($idKecamatan, $idPaslon)
+    public function pemetaanSuaraKelurahan($idKecamatan, $idPaslon)
     {
         $paslon = Paslon::find($idPaslon);
         $kelurahan = Kelurahan::whereHas('kecamatan', function ($query) use ($idKecamatan) {
@@ -114,7 +114,7 @@ class PemetaanSuaraController extends Controller
         });
 
         return response()->json([
-            'message' => 'Data pemataanSuara by Kelurahan  paslon ' . $paslon->user->name . ' berhasil diambil',
+            'message' => 'Data SUara by Kelurahan  paslon ' . $paslon->user->name . ' berhasil diambil',
             'data' => $kelurahan
         ]);
     }
