@@ -7,40 +7,55 @@ use App\Models\Kecamatan;
 use App\Models\Kelurahan;
 use App\Models\Paslon;
 use App\Models\Provinsi;
+use App\Models\PemilihPotensial;
 use Illuminate\Http\Request;
 
 class PemetaanSuaraController extends Controller
 {
-    public function pemetaanSuaraProvinsi($idPaslon)
+    public function pemataanSuaraProvinsi($idPaslon)
     {
-        $paslon = Paslon::find($idPaslon);
-        if (!$paslon) {
-            return response()->json(['error' => 'DATA MASIH KOSONG'], 404);
+        try {
+            $paslon = Paslon::find($idPaslon);
+            if (!$paslon) {
+                return response()->json([
+                    'message' => 'Paslon tidak ditemukan'
+                ], 404);
+            }
+
+            $provinsi = Provinsi::whereHas('pemilihPotensial', function ($query) use ($idPaslon) {
+                $query->whereHas('koordinator', function ($query) use ($idPaslon) {
+                    $query->where('paslon_id', $idPaslon);
+                });
+            })->withCount(['pemilihPotensial' => function ($query) use ($idPaslon) {
+                $query->whereHas('koordinator', function ($query) use ($idPaslon) {
+                    $query->where('paslon_id', $idPaslon);
+                });
+            }])->get()->filter(function ($provinsi) {
+                return $provinsi->pemilih_potensial_count > 0;
+            });
+
+            return response()->json([
+                'message' => 'Data pemataanSuara by provinsi paslon ' . $paslon->user->name . ' berhasil diambil',
+                'data' => $provinsi
+            ]);
+        } catch (\Exception $e) {
+            // Log error
+            \Log::error('Error in pemataanSuaraProvinsi: ' . $e->getMessage());
+            return response()->json([
+                'message' => 'Terjadi kesalahan saat mengambil data',
+                'error' => $e->getMessage()
+            ], 500);
         }
-
-        $provinsi = Provinsi::whereHas('pemilihPotensial', function ($query) use ($idPaslon) {
-            $query->whereHas('koordinator', function ($query) use ($idPaslon) {
-                $query->where('paslon_id', $idPaslon);
-            });
-        })->withCount(['pemilihPotensial' => function ($query) use ($idPaslon) {
-            $query->whereHas('koordinator', function ($query) use ($idPaslon) {
-                $query->where('paslon_id', $idPaslon);
-            });
-        }])->get()->filter(function ($provinsi) {
-            return $provinsi->pemilih_potensial_count > 0;
-        });
-
-        return response()->json($provinsi);
     }
 
-    public function pemetaanSuaraKabupaten($idPaslon)
+
+
+    public function pemataanSuaraKabupaten($idProvinsi, $idPaslon)
     {
         $paslon = Paslon::find($idPaslon);
-        if (!$paslon) {
-            return response()->json(['error' => 'DATA MASIH KOSONG'], 404);
-        }
-
-        $kabupaten = Kabupaten::whereHas('pemilihPotensial', function ($query) use ($idPaslon) {
+        $kabupaten = Kabupaten::whereHas('provinsi', function ($query) use ($idProvinsi) {
+            $query->where('provinsi_id', $idProvinsi);
+        })->whereHas('pemilihPotensial', function ($query) use ($idPaslon) {
             $query->whereHas('koordinator', function ($query) use ($idPaslon) {
                 $query->where('paslon_id', $idPaslon);
             });
@@ -52,17 +67,18 @@ class PemetaanSuaraController extends Controller
             return $kabupaten->pemilih_potensial_count > 0;
         });
 
-        return response()->json($kabupaten);
+        return response()->json([
+            'message' => 'Data pemataanSuara by kabupaten  paslon ' . $paslon->user->name . ' berhasil diambil',
+            'data' => $kabupaten
+        ]);
     }
 
-    public function pemetaanSuaraKecamatan($idPaslon)
+    public function pemataanSuaraKecamatan($idKabupaten, $idPaslon)
     {
         $paslon = Paslon::find($idPaslon);
-        if (!$paslon) {
-            return response()->json(['error' => 'DATA MASIH KOSONG'], 404);
-        }
-
-        $kecamatan = Kecamatan::whereHas('pemilihPotensial', function ($query) use ($idPaslon) {
+        $kecamatan = Kecamatan::whereHas('kabupaten', function ($query) use ($idKabupaten) {
+            $query->where('kabupaten_id', $idKabupaten);
+        })->whereHas('pemilihPotensial', function ($query) use ($idPaslon) {
             $query->whereHas('koordinator', function ($query) use ($idPaslon) {
                 $query->where('paslon_id', $idPaslon);
             });
@@ -74,17 +90,18 @@ class PemetaanSuaraController extends Controller
             return $kecamatan->pemilih_potensial_count > 0;
         });
 
-        return response()->json($kecamatan);
+        return response()->json([
+            'message' => 'Data pemataanSuara by Kecamatan  paslon ' . $paslon->user->name . ' berhasil diambil',
+            'data' => $kecamatan
+        ]);
     }
 
-    public function pemetaanSuaraKelurahan($idPaslon)
+    public function pemataanSuaraKelurahan($idKecamatan, $idPaslon)
     {
         $paslon = Paslon::find($idPaslon);
-        if (!$paslon) {
-            return response()->json(['error' => 'DATA MASIH KOSONG'], 404);
-        }
-
-        $kelurahan = Kelurahan::whereHas('pemilihPotensial', function ($query) use ($idPaslon) {
+        $kelurahan = Kelurahan::whereHas('kecamatan', function ($query) use ($idKecamatan) {
+            $query->where('kecamatan_id', $idKecamatan);
+        })->whereHas('pemilihPotensial', function ($query) use ($idPaslon) {
             $query->whereHas('koordinator', function ($query) use ($idPaslon) {
                 $query->where('paslon_id', $idPaslon);
             });
@@ -96,6 +113,9 @@ class PemetaanSuaraController extends Controller
             return $kelurahan->pemilih_potensial_count > 0;
         });
 
-        return response()->json($kelurahan);
+        return response()->json([
+            'message' => 'Data pemataanSuara by Kelurahan  paslon ' . $paslon->user->name . ' berhasil diambil',
+            'data' => $kelurahan
+        ]);
     }
 }
