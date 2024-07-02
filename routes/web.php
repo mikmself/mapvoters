@@ -30,7 +30,7 @@ Route::post('/api/koordinator/search', [App\Http\Controllers\KoordinatorControll
 Route::get('/api/v2/saksi/{id}/{role}', [App\Http\Controllers\SaksiController::class, 'show']);
 Route::post('/api/v2/saksi', [App\Http\Controllers\SaksiController::class, 'store']);
 Route::get('/api/v2/pemilih-potensial/{idPaslon}/{role}', [App\Http\Controllers\PemilihPotensialController::class, 'getAllData']);
-Route::post('/api/pemilih-potensial', [App\Http\Controllers\PemilihPotensialController::class, 'store']);
+Route::post('/api/v2/pemilih-potensial', [App\Http\Controllers\PemilihPotensialController::class, 'store']);
 Route::post('/api/pemilih-potensial/update/{id}', [App\http\Controllers\PemilihPotensialController::class, 'update']);
 Route::delete('/api/v2/pemilih-potensial/{idpemilihPotensial}', [App\Http\Controllers\PemilihPotensialController::class, 'destroy']);
 // Route::get('/api/saksi/{id}', [App\Http\Controllers\SaksiController::class, 'show']);
