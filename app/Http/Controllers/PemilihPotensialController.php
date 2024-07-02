@@ -170,10 +170,13 @@ class PemilihPotensialController extends Controller
     }
 
 
-    public function destroy(PemilihPotensial $pemilihPotensial)
+    public function destroy($idpemilihPotensial)
     {
-        $pemilihPotensial->delete();
-
-        return response()->json(['message' => 'Pemilih potensial berhasil dihapus']);
+        try {
+            PemilihPotensial::whereId($idpemilihPotensial)->delete();
+            return response()->json(['message' => 'Pemilih potensial berhasil dihapus']);
+        } catch (\Throwable $th) {
+            return response()->json(['message' => 'gagal ' + $th]);
+        }
     }
 }
