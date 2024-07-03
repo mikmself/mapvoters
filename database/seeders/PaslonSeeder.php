@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\Paslon;
+use App\Models\Pengaturan;
 use App\Models\User;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -19,13 +20,17 @@ class PaslonSeeder extends Seeder
             'telephone' => '082211113333',
             'role' => 'paslon'
         ]);
-        Paslon::create([
+        $paslon1 = Paslon::create([
             'foto' => 'subani.jpg',
             'type' => 'dprri',
             'nomor_urut' => 1,
             'dapil' => 'Jawa Tengah VIII',
             'partai_id' => 1,
             'user_id' => $user1->id
+        ]);
+        Pengaturan::create([
+            'paslon_id'=> $paslon1->id,
+            'target_suara'=>0
         ]);
 
         $user2 = User::create([
@@ -35,13 +40,17 @@ class PaslonSeeder extends Seeder
             'telephone' => '085811112222',
             'role' => 'paslon'
         ]);
-        Paslon::create([
+        $paslon2 = Paslon::create([
             'foto' => 'jefri.jpg',
             'type' => 'dprri',
             'nomor_urut' =>2,
             'dapil' => 'Jawa Tengah VIII',
             'partai_id' => 1,
             'user_id' => $user2->id
+        ]);
+        Pengaturan::create([
+            'paslon_id'=> $paslon2->id,
+            'target_suara'=>0
         ]);
 
         $user3 = User::create([
@@ -51,13 +60,17 @@ class PaslonSeeder extends Seeder
             'telephone' => '089811113333',
             'role' => 'paslon'
         ]);
-        Paslon::create([
+        $paslon3 = Paslon::create([
             'foto' => 'rafli.jpg',
             'type' => 'dprri',
             'nomor_urut' => 3,
             'dapil' => 'Jawa Tengah VIII',
             'partai_id' => 1,
             'user_id' => $user3->id
+        ]);
+        Pengaturan::create([
+            'paslon_id'=> $paslon3->id,
+            'target_suara'=>0
         ]);
     }
 }
