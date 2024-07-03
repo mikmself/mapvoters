@@ -51,6 +51,10 @@ class PaslonController extends Controller
                 'partai_id' => $request->input('partai_id'),
                 'user_id' => $user->id
             ]);
+            Pengaturan::create([
+                'paslon_id'=> $paslon->id,
+                'target_suara'=>0
+            ]);
 
             DB::commit();
             return response()->json([
