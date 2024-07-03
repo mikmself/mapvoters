@@ -14,14 +14,20 @@ use Illuminate\Support\Facades\Validator;
 class PemilihPotensialController extends Controller
 {
 
-    public function index()
+    public function show($id)
     {
-        $pemilihPotensial = PemilihPotensial::all();
-        return response()->json([
-            'code' => 1,
-            'message' => 'semua data pemilih potensial',
-            'data' => $pemilihPotensial
-        ]);
+        try {
+            $pemilihPotensial = PemilihPotensial::with(['provinsi', 'kabupaten', 'kecamatan', 'kelurahan', 'koordinator'])
+                ->where('id', $id)
+                ->get();
+            return response()->json([
+                'message' => 'Data Saksi by provinsi paslon berhasil diambil',
+                'data' => $pemilihPotensial
+            ]);
+        } catch (\Throwable $th) {
+            return response()->json(['message' => 'Gagal mengambil data: ' . $th->getMessage()]);
+        }
+
     }
 
 
@@ -170,10 +176,13 @@ class PemilihPotensialController extends Controller
     }
 
 
-    public function destroy(PemilihPotensial $pemilihPotensial)
+    public function destroy($idpemilihPotensial)
     {
-        $pemilihPotensial->delete();
-
-        return response()->json(['message' => 'Pemilih potensial berhasil dihapus']);
+        try {
+            PemilihPotensial::whereId($idpemilihPotensial)->delete();
+            return response()->json(['message' => 'Pemilih potensial berhasil dihapus']);
+        } catch (\Throwable $th) {
+            return response()->json(['message' => 'gagal ' + $th]);
+        }
     }
 }
