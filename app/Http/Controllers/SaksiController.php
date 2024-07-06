@@ -79,21 +79,19 @@ class SaksiController extends Controller
      */
     public function show($id, $role)
     {
+        $paslon = Paslon::find($id);
         if($role == 'paslon') {
-            $paslon = Paslon::find($id);
-            $saksi = Saksi::whereHas('koordinator', function ($query) use ($id) {
+            $saksi = Saksi::with('provinsi','kabupaten','kecamatan',
+            'kelurahan','user','koordinator')->whereHas('koordinator', function ($query) use ($id) {
                 $query->where('paslon_id', $id);
             })->get();
-
             return response()->json([
                 'message' => 'Data Saksi ' . $paslon->user->name . ' berhasil diambil',
                 'data' => $saksi,
             ]);
-        } else {
-            $saksi = Saksi::where('koordinator_id', $id)->get();
-            if (!$saksi) {
-                return response()->json(['message' => 'Saksi not found'], Response::HTTP_NOT_FOUND);
-            }
+        } {
+            $saksi = Saksi::with('provinsi','kabupaten','kecamatan',
+                'kelurahan','user','koordinator')->where('koordinator_id', $id)->get();
             return response()->json([
                 'message' => 'Data Saksi berhasil diambil',
                 'data' => $saksi,
