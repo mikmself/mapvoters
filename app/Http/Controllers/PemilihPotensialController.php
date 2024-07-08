@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Koordinator;
 use App\Models\PemilihPotensial;
 use App\Models\Paslon;
 use Carbon\Carbon;
@@ -88,8 +89,9 @@ class PemilihPotensialController extends Controller
 
     public function getAllData($idPaslon,$role)
     {
-        $paslon = Paslon::find($idPaslon);
+
         if($role == 'paslon'){
+            $paslon = Paslon::find($idPaslon);
             $pemilih = PemilihPotensial::whereHas('koordinator', function ($query) use ($idPaslon) {
                 $query->where('paslon_id', $idPaslon);
             })->get();
@@ -100,9 +102,10 @@ class PemilihPotensialController extends Controller
 
             ]);
         } {
+        $koordinator = Koordinator::find($idPaslon);
             $pemilih = PemilihPotensial::where('koordinator_id', $idPaslon)->get();
             return response()->json([
-                'message' => 'Data Saksi by provinsi  paslon ' . $paslon->user->name . ' berhasil diambil',
+                'message' => 'Data Saksi by provinsi  paslon ' . $koordinator->user->name . ' berhasil diambil',
                 'data' => $pemilih,
 
             ]);

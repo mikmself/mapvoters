@@ -27,7 +27,7 @@ Route::get('/api/pemetaan-c1-provinsi/{idPaslon}', [\App\Http\Controllers\Pemeta
 Route::get('/api/pemetaan-c1-kabupaten/{idProvinsi}/{idPaslon}', [\App\Http\Controllers\PemetaanC1Controller::class, 'C1Kabupaten']);
 Route::get('/api/pemetaan-c1-kecamatan/{idKabupaten}/{idPaslon}', [\App\Http\Controllers\PemetaanC1Controller::class, 'C1Kecamatan']);
 Route::get('/api/pemetaan-c1-kelurahan/{idKecamatan}/{idPaslon}', [\App\Http\Controllers\PemetaanC1Controller::class, 'C1Kelurahan']);
-Route::get('/api/pemetaan-c1-TPS/{idKelurahan}/{idPaslon}', [\App\Http\Controllers\PemetaanC1Controller::class, 'C1TPS']);
+Route::get('/api/pemetaan-c1-TPS/{idKelurahan}/{idPaslon}', [\App\Http\Controllers\GET_Suara_ByTPS::class, 'getDataTPS']);
 
 //dashboard
 Route::get('/api/get-dashboard-data/{idPaslon}', [App\Http\Controllers\DashboardController::class, 'getDashboardData']);

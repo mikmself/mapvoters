@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Pengaturan;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Paslon;
@@ -32,7 +33,7 @@ class PaslonController extends Controller
                 ]);
             }
             $foto = $request->file('foto');
-            $namafoto = time() . '.' . $foto->getClientOriginalExtension();
+            $namafoto = "paslon/". time() . '.' . $foto->getClientOriginalExtension();
             $foto->move(public_path('paslon'), $namafoto);
             DB::beginTransaction();
             $user = User::create([
